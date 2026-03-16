@@ -80,7 +80,7 @@ export async function runPipeline(leads, onUpdate, signal) {
       lead._step = STEPS.BRAND_RESEARCH;
       onUpdate([...leads], i, STEPS.BRAND_RESEARCH, { ...stats });
 
-      lead.brand_research = await researchBrand(lead.company, throttleCallbacks);
+      lead.brand_research = await researchBrand(lead.company, { ...throttleCallbacks, website: lead.website });
 
       // Step 4: Person research
       lead._step = STEPS.PERSON_RESEARCH;

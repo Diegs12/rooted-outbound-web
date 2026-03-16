@@ -8,7 +8,7 @@ function escapeCSVField(value) {
 
 export function exportCSV(leads) {
   const columns = [
-    'first_name', 'last_name', 'email', 'company', 'title', 'tier',
+    'first_name', 'last_name', 'email', 'company', 'title', 'city', 'website', 'tier',
     'confidence', 'personal_hook', 'brand_hook_line', 'key_properties',
     'activation_gap', 'subject', 'body', 'body_html', 'linkedin_url', 'status',
   ];
@@ -20,6 +20,8 @@ export function exportCSV(leads) {
       email: l.email,
       company: l.company,
       title: l.title || '',
+      city: l.city || '',
+      website: l.website || '',
       tier: l.tier,
       confidence: l.confidence || '',
       personal_hook: l.personal_hook || '',

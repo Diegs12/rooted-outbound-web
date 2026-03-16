@@ -97,6 +97,8 @@ export function parseCSV(file) {
             title: obj.title || null,
             linkedin_url: obj.linkedin_url || null,
             custom_intro: obj.custom_intro || null,
+            website: obj.website || null,
+            city: obj.city || null,
             tier: null,
             confidence: null,
             personal_hook: null,

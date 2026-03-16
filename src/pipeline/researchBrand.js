@@ -45,16 +45,18 @@ async function claudeCall(systemPrompt, userPrompt) {
   return data.content;
 }
 
-export async function researchBrand(company, { onThrottle }) {
+export async function researchBrand(company, { onThrottle, website }) {
   const cacheKey = company.toLowerCase().trim();
   if (brandCache.has(cacheKey)) {
     return brandCache.get(cacheKey);
   }
 
+  const site = website ? ` site:${website.replace(/^https?:\/\//, '')}` : '';
+
   // Three sequential calls (each needs 6.5s throttle for Perplexity rate limit)
   if (onThrottle) onThrottle();
   const sponsorships = await perplexityCall(
-    `"${company}" sports sponsorship deal partner 2024 2025 2026`,
+    `"${company}"${site} sports sponsorship deal partner 2024 2025 2026`,
     'Be precise and concise. Return only factual information found in search results.'
   );
 

@@ -27,6 +27,8 @@ export default function App() {
           .replace(/\{email\}/g, lead.email || '')
           .replace(/\{company\}/g, lead.company || '')
           .replace(/\{title\}/g, lead.title || '')
+          .replace(/\{website\}/g, lead.website || '')
+          .replace(/\{city\}/g, lead.city || '')
           .replace(/\{custom_intro\}/g, lead.custom_intro || '');
 
       const mergedBody = merge(body);

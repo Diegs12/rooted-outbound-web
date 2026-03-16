@@ -76,7 +76,7 @@ export async function writeEmail(lead) {
 
 NAME: ${lead.first_name} ${lead.last_name}
 TITLE: ${lead.title}
-COMPANY: ${lead.company}
+COMPANY: ${lead.company}${lead.city ? `\nCITY: ${lead.city}` : ''}${lead.website ? `\nWEBSITE: ${lead.website}` : ''}
 TIER: ${lead.tier} ${lead.tier === 1 ? '(decision maker, CTA: "Worth a 20-minute conversation?")' : '(influencer, CTA: "Happy to send 2-3 specific ideas for your [deal name] deal if useful.")'}
 
 BRAND RESEARCH:

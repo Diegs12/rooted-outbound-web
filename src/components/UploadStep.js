@@ -1,7 +1,7 @@
 import React, { useCallback, useState, useRef } from 'react';
 import { parseCSV } from '../lib/csvParser';
 
-const MERGE_TAGS = ['{first_name}', '{last_name}', '{email}', '{company}', '{title}', '{custom_intro}'];
+const MERGE_TAGS = ['{first_name}', '{last_name}', '{email}', '{company}', '{title}', '{city}', '{custom_intro}'];
 
 export default function UploadStep({ onLeadsLoaded, onTemplateReady }) {
   const [dragOver, setDragOver] = useState(false);
