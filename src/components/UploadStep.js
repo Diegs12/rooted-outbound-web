@@ -59,7 +59,7 @@ export default function UploadStep({ onLeadsLoaded, onTemplateReady }) {
     <div className="step-container">
       <h2>Upload Leads</h2>
       <p className="step-desc">
-        Drop a CSV with columns: first_name, last_name, email, company. Optional: title, linkedin_url
+        Drop a CSV with columns: Brand, First Name, Last Name, Email. Optional: Role, Location, Website, Custom Intro
       </p>
 
       <div

@@ -1,4 +1,24 @@
-const REQUIRED_COLUMNS = ['first_name', 'last_name', 'email', 'company'];
+// Map user-friendly column names to internal field names
+const COLUMN_ALIASES = {
+  'brand': 'company',
+  'company': 'company',
+  'first name': 'first_name',
+  'first_name': 'first_name',
+  'last name': 'last_name',
+  'last_name': 'last_name',
+  'email': 'email',
+  'role': 'title',
+  'title': 'title',
+  'location': 'city',
+  'city': 'city',
+  'website': 'website',
+  'linkedin_url': 'linkedin_url',
+  'linkedin': 'linkedin_url',
+  'custom_intro': 'custom_intro',
+  'custom intro': 'custom_intro',
+};
+
+const REQUIRED_FIELDS = ['first_name', 'last_name', 'email', 'company'];
 
 function parseCSVText(text) {
   const rows = [];
@@ -62,11 +82,12 @@ export function parseCSV(file) {
           return;
         }
 
-        const headers = parsed[0].map((h) => h.trim().toLowerCase());
+        const rawHeaders = parsed[0].map((h) => h.trim().toLowerCase());
+        const headers = rawHeaders.map((h) => COLUMN_ALIASES[h] || h);
 
-        for (const col of REQUIRED_COLUMNS) {
-          if (!headers.includes(col)) {
-            reject(new Error(`Missing required column: "${col}". Found: ${headers.join(', ')}`));
+        for (const field of REQUIRED_FIELDS) {
+          if (!headers.includes(field)) {
+            reject(new Error(`Missing required column: "${field}". Found: ${rawHeaders.join(', ')}`));
             return;
           }
         }
