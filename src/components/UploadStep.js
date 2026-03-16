@@ -18,10 +18,15 @@ export default function UploadStep({ onLeadsLoaded, onTemplateReady }) {
     setPreview(null);
     try {
       const { leads, dupeCount: dupes } = await parseCSV(file);
+      if (leads.length === 0) {
+        setError('No valid leads found in CSV. Check your column names.');
+        return;
+      }
       setPreview(leads);
       setDupeCount(dupes);
     } catch (err) {
-      setError(err.message);
+      console.error('CSV parse error:', err);
+      setError(err.message || 'Failed to parse CSV');
     }
   }, []);
 

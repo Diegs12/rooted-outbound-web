@@ -82,8 +82,8 @@ export function parseCSV(file) {
           return;
         }
 
-        const rawHeaders = parsed[0].map((h) => h.trim().toLowerCase());
-        const headers = rawHeaders.map((h) => COLUMN_ALIASES[h] || h);
+        const rawHeaders = parsed[0].map((h) => h.trim().toLowerCase().replace(/[_\s]+/g, ' ').trim());
+        const headers = rawHeaders.map((h) => COLUMN_ALIASES[h] || COLUMN_ALIASES[h.replace(/ /g, '_')] || h);
 
         for (const field of REQUIRED_FIELDS) {
           if (!headers.includes(field)) {
