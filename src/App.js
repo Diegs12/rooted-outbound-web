@@ -18,6 +18,39 @@ export default function App() {
     setStep(1);
   }, []);
 
+  const handleTemplateReady = useCallback((parsedLeads, subject, body) => {
+    const merged = parsedLeads.map((lead) => {
+      const merge = (str) =>
+        str
+          .replace(/\{first_name\}/g, lead.first_name || '')
+          .replace(/\{last_name\}/g, lead.last_name || '')
+          .replace(/\{email\}/g, lead.email || '')
+          .replace(/\{company\}/g, lead.company || '')
+          .replace(/\{title\}/g, lead.title || '')
+          .replace(/\{custom_intro\}/g, lead.custom_intro || '');
+
+      const mergedBody = merge(body);
+      const mergedSubject = merge(subject);
+      const bodyHtml = mergedBody
+        .split('\n\n')
+        .map((p) => `<p>${p.replace(/\n/g, '<br/>')}</p>`)
+        .join('');
+
+      return {
+        ...lead,
+        subject: mergedSubject,
+        body: mergedBody,
+        body_html: bodyHtml,
+        status: 'drafted',
+        approved: true,
+        tier: lead.tier || null,
+        _step: 'Done',
+      };
+    });
+    setLeads(merged);
+    setStep(2);
+  }, []);
+
   const handleProcessingComplete = useCallback((processedLeads) => {
     setLeads(processedLeads);
     setStep(2);
@@ -61,7 +94,7 @@ export default function App() {
       <main className="main">
         {showSettings && <Settings onClose={() => setShowSettings(false)} />}
 
-        {!showSettings && step === 0 && <UploadStep onLeadsLoaded={handleLeadsLoaded} />}
+        {!showSettings && step === 0 && <UploadStep onLeadsLoaded={handleLeadsLoaded} onTemplateReady={handleTemplateReady} />}
         {!showSettings && step === 1 && (
           <ProcessingStep leads={leads} onComplete={handleProcessingComplete} />
         )}

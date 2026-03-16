@@ -96,6 +96,7 @@ export function parseCSV(file) {
             company: obj.company || '',
             title: obj.title || null,
             linkedin_url: obj.linkedin_url || null,
+            custom_intro: obj.custom_intro || null,
             tier: null,
             confidence: null,
             personal_hook: null,

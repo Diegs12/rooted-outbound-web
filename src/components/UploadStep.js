@@ -1,27 +1,29 @@
 import React, { useCallback, useState, useRef } from 'react';
 import { parseCSV } from '../lib/csvParser';
 
-export default function UploadStep({ onLeadsLoaded }) {
+const MERGE_TAGS = ['{first_name}', '{last_name}', '{email}', '{company}', '{title}', '{custom_intro}'];
+
+export default function UploadStep({ onLeadsLoaded, onTemplateReady }) {
   const [dragOver, setDragOver] = useState(false);
   const [error, setError] = useState(null);
   const [preview, setPreview] = useState(null);
   const [dupeCount, setDupeCount] = useState(0);
+  const [mode, setMode] = useState('ai'); // 'ai' or 'template'
+  const [templateSubject, setTemplateSubject] = useState('');
+  const [templateBody, setTemplateBody] = useState('');
   const fileInputRef = useRef();
 
-  const handleFile = useCallback(
-    async (file) => {
-      setError(null);
-      setPreview(null);
-      try {
-        const { leads, dupeCount: dupes } = await parseCSV(file);
-        setPreview(leads);
-        setDupeCount(dupes);
-      } catch (err) {
-        setError(err.message);
-      }
-    },
-    []
-  );
+  const handleFile = useCallback(async (file) => {
+    setError(null);
+    setPreview(null);
+    try {
+      const { leads, dupeCount: dupes } = await parseCSV(file);
+      setPreview(leads);
+      setDupeCount(dupes);
+    } catch (err) {
+      setError(err.message);
+    }
+  }, []);
 
   const onDrop = useCallback(
     (e) => {
@@ -40,6 +42,18 @@ export default function UploadStep({ onLeadsLoaded }) {
     },
     [handleFile]
   );
+
+  const insertTag = (tag, setter, inputId) => {
+    const el = document.getElementById(inputId);
+    if (!el) return;
+    const start = el.selectionStart;
+    const end = el.selectionEnd;
+    setter((prev) => prev.slice(0, start) + tag + prev.slice(end));
+    setTimeout(() => {
+      el.focus();
+      el.setSelectionRange(start + tag.length, start + tag.length);
+    }, 0);
+  };
 
   return (
     <div className="step-container">
@@ -114,9 +128,80 @@ export default function UploadStep({ onLeadsLoaded }) {
               </p>
             )}
           </div>
-          <button className="btn-primary" onClick={() => onLeadsLoaded(preview)}>
-            Start Processing
-          </button>
+
+          <div className="mode-toggle">
+            <button
+              className={`mode-btn ${mode === 'ai' ? 'mode-btn-active' : ''}`}
+              onClick={() => setMode('ai')}
+            >
+              AI Pipeline
+            </button>
+            <button
+              className={`mode-btn ${mode === 'template' ? 'mode-btn-active' : ''}`}
+              onClick={() => setMode('template')}
+            >
+              Template
+            </button>
+          </div>
+
+          {mode === 'ai' && (
+            <p className="step-desc" style={{ marginTop: 12 }}>
+              Full pipeline: enrich titles, research brands + people, AI-write unique emails per lead.
+            </p>
+          )}
+
+          {mode === 'template' && (
+            <div className="template-section">
+              <p className="step-desc" style={{ marginTop: 0 }}>
+                Paste your subject and body. Use merge tags to personalize. Add a <code>custom_intro</code> column in your CSV for per-lead openers.
+              </p>
+              <div className="merge-tags">
+                {MERGE_TAGS.map((tag) => (
+                  <button
+                    key={tag}
+                    className="merge-tag"
+                    onClick={() => insertTag(tag, setTemplateBody, 'template-body')}
+                  >
+                    {tag}
+                  </button>
+                ))}
+              </div>
+              <label className="input-label">Subject</label>
+              <input
+                id="template-subject"
+                type="text"
+                value={templateSubject}
+                onChange={(e) => setTemplateSubject(e.target.value)}
+                className="input-field"
+                placeholder="e.g. Quick idea for {company}"
+              />
+              <label className="input-label" style={{ marginTop: 12 }}>Body</label>
+              <textarea
+                id="template-body"
+                value={templateBody}
+                onChange={(e) => setTemplateBody(e.target.value)}
+                rows={10}
+                className="input-field"
+                placeholder={`Hi {first_name},\n\nYour email body here...\n\nDiego`}
+              />
+            </div>
+          )}
+
+          {mode === 'ai' && (
+            <button className="btn-primary" onClick={() => onLeadsLoaded(preview)}>
+              Start Processing
+            </button>
+          )}
+
+          {mode === 'template' && (
+            <button
+              className="btn-primary"
+              disabled={!templateSubject.trim() || !templateBody.trim()}
+              onClick={() => onTemplateReady(preview, templateSubject, templateBody)}
+            >
+              Merge &amp; Review
+            </button>
+          )}
         </>
       )}
     </div>

@@ -389,6 +389,74 @@ tr:last-child td {
 .conf-med { background: rgba(251, 191, 36, 0.15); color: var(--yellow); }
 .conf-low { background: rgba(136, 136, 136, 0.15); color: var(--text-muted); }
 
+/* === Mode Toggle === */
+.mode-toggle {
+  display: flex;
+  gap: 0;
+  margin: 20px 0 4px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  width: fit-content;
+}
+
+.mode-btn {
+  padding: 8px 20px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  background: var(--surface-2);
+  color: var(--text-muted);
+  transition: all 0.15s;
+}
+
+.mode-btn:first-child {
+  border-right: 1px solid var(--border);
+}
+
+.mode-btn-active {
+  background: var(--accent);
+  color: #fff;
+}
+
+/* === Merge Tags === */
+.merge-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+
+.merge-tag {
+  padding: 4px 10px;
+  font-size: 12px;
+  font-family: 'SF Mono', 'Fira Code', monospace;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  color: var(--accent);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.merge-tag:hover {
+  background: rgba(79, 140, 255, 0.1);
+  border-color: var(--accent);
+}
+
+.template-section {
+  margin: 12px 0 20px;
+}
+
+.template-section code {
+  background: var(--surface-2);
+  padding: 1px 5px;
+  border-radius: 3px;
+  font-size: 12px;
+  color: var(--accent);
+}
+
 /* === Preview Header === */
 .preview-header {
   display: flex;
