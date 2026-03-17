@@ -2,20 +2,20 @@ import React, { useState } from 'react';
 import {
   getAgentMd,
   setAgentMd,
-  getPortfolioLink,
-  setPortfolioLink,
+  getLinks,
+  setLinks,
   resetAgentMd,
 } from '../lib/agentMd';
 import GmailConnect from './GmailConnect';
 
 export default function Settings({ onClose }) {
   const [agentContent, setAgentContent] = useState(getAgentMd());
-  const [portfolio, setPortfolio] = useState(getPortfolioLink());
+  const [links, setLinksState] = useState(getLinks());
   const [saved, setSaved] = useState(false);
 
   const handleSave = () => {
     setAgentMd(agentContent);
-    setPortfolioLink(portfolio);
+    setLinks(links.filter((l) => l.title.trim() && l.url.trim()));
     setSaved(true);
     setTimeout(() => setSaved(false), 2000);
   };
@@ -23,6 +23,20 @@ export default function Settings({ onClose }) {
   const handleReset = () => {
     const defaultContent = resetAgentMd();
     setAgentContent(defaultContent);
+  };
+
+  const addLink = () => {
+    setLinksState([...links, { title: '', url: '' }]);
+  };
+
+  const updateLink = (index, field, value) => {
+    const updated = [...links];
+    updated[index] = { ...updated[index], [field]: value };
+    setLinksState(updated);
+  };
+
+  const removeLink = (index) => {
+    setLinksState(links.filter((_, i) => i !== index));
   };
 
   return (
@@ -40,15 +54,37 @@ export default function Settings({ onClose }) {
       </div>
 
       <div className="settings-section">
-        <h3>Portfolio Link</h3>
-        <p className="step-desc">Embedded in every email.</p>
-        <input
-          type="text"
-          value={portfolio}
-          onChange={(e) => setPortfolio(e.target.value)}
-          className="input-field"
-          placeholder="https://..."
-        />
+        <h3>Links</h3>
+        <p className="step-desc">
+          Named links for emails. The title becomes the anchor text and a merge tag.
+          E.g. title "portfolio" creates <code>{'{portfolio_link}'}</code>
+        </p>
+        <div className="links-list">
+          {links.map((link, i) => (
+            <div key={i} className="link-row">
+              <input
+                type="text"
+                value={link.title}
+                onChange={(e) => updateLink(i, 'title', e.target.value)}
+                className="input-field link-title-input"
+                placeholder="Title (e.g. portfolio)"
+              />
+              <input
+                type="text"
+                value={link.url}
+                onChange={(e) => updateLink(i, 'url', e.target.value)}
+                className="input-field link-url-input"
+                placeholder="https://..."
+              />
+              <button className="btn-remove" onClick={() => removeLink(i)}>
+                &times;
+              </button>
+            </div>
+          ))}
+        </div>
+        <button className="btn-secondary" onClick={addLink} style={{ marginTop: 8 }}>
+          + Add Link
+        </button>
       </div>
 
       <div className="settings-section">

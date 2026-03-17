@@ -1,7 +1,8 @@
 import React, { useCallback, useState, useRef } from 'react';
 import { parseCSV } from '../lib/csvParser';
+import { getLinks } from '../lib/agentMd';
 
-const MERGE_TAGS = ['{first_name}', '{last_name}', '{name}', '{email}', '{company}', '{title}', '{city}', '{custom_intro}'];
+const BASE_TAGS = ['{first_name}', '{last_name}', '{name}', '{email}', '{company}', '{title}', '{city}', '{custom_intro}'];
 
 export default function UploadStep({ onLeadsLoaded, onTemplateReady }) {
   const [dragOver, setDragOver] = useState(false);
@@ -164,10 +165,10 @@ export default function UploadStep({ onLeadsLoaded, onTemplateReady }) {
                 Paste your subject and body. Use merge tags to personalize.
               </p>
               <div className="merge-tags">
-                {MERGE_TAGS.map((tag) => (
+                {[...BASE_TAGS, ...getLinks().filter(l => l.title && l.url).map(l => `{${l.title.toLowerCase().replace(/\s+/g, '_')}_link}`)].map((tag) => (
                   <button
                     key={tag}
-                    className="merge-tag"
+                    className={`merge-tag ${tag.endsWith('_link}') ? 'merge-tag-link' : ''}`}
                     onClick={() => insertTag(tag)}
                   >
                     {tag}

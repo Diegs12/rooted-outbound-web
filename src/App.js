@@ -4,6 +4,7 @@ import ProcessingStep from './components/ProcessingStep';
 import ReviewStep from './components/ReviewStep';
 import ExportStep from './components/ExportStep';
 import Settings from './components/Settings';
+import { getLinks } from './lib/agentMd';
 import './App.css';
 
 const STEP_LABELS = ['Upload', 'Process', 'Review', 'Export'];
@@ -19,10 +20,11 @@ export default function App() {
   }, []);
 
   const handleTemplateReady = useCallback((parsedLeads, subject, body) => {
+    const links = getLinks();
     const merged = parsedLeads.map((lead) => {
       const fullName = [lead.first_name, lead.last_name].filter(Boolean).join(' ');
-      const merge = (str) =>
-        str
+      const merge = (str) => {
+        let result = str
           .replace(/\{first_name\}/g, lead.first_name || '')
           .replace(/\{last_name\}/g, lead.last_name || '')
           .replace(/\{name\}/g, fullName)
@@ -32,6 +34,15 @@ export default function App() {
           .replace(/\{website\}/g, lead.website || '')
           .replace(/\{city\}/g, lead.city || '')
           .replace(/\{custom_intro\}/g, lead.custom_intro || '');
+        // Replace link merge tags with the URL
+        for (const link of links) {
+          if (link.title && link.url) {
+            const tag = `{${link.title.toLowerCase().replace(/\s+/g, '_')}_link}`;
+            result = result.replace(new RegExp(tag.replace(/[{}]/g, '\\$&'), 'g'), link.url);
+          }
+        }
+        return result;
+      };
 
       const mergedBody = merge(body);
       const mergedSubject = merge(subject);

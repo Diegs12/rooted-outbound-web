@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
-function EmailCard({ lead, index, onUpdate }) {
-  const [expanded, setExpanded] = useState(false);
+function EmailCard({ lead, index, onUpdate, defaultExpanded }) {
+  const [expanded, setExpanded] = useState(defaultExpanded);
   const [editing, setEditing] = useState(false);
   const [subject, setSubject] = useState(lead.subject || '');
   const [body, setBody] = useState(lead.body || '');
@@ -13,19 +13,10 @@ function EmailCard({ lead, index, onUpdate }) {
     setEditing(false);
   };
 
-  const confidenceCls =
-    lead.confidence === 'high'
-      ? 'conf-high'
-      : lead.confidence === 'medium'
-      ? 'conf-med'
-      : 'conf-low';
-
   return (
     <div className={`email-card ${lead.approved ? '' : 'email-card-rejected'}`}>
       <div className="email-card-header" onClick={() => setExpanded(!expanded)}>
         <div className="email-card-left">
-          <span className={`tier-badge tier-${lead.tier}`}>T{lead.tier}</span>
-          <span className={`conf-badge ${confidenceCls}`}>{lead.confidence || 'low'}</span>
           <strong>{lead.first_name} {lead.last_name}</strong>
           <span className="cell-muted">{lead.company}</span>
         </div>
@@ -40,6 +31,7 @@ function EmailCard({ lead, index, onUpdate }) {
           >
             {lead.approved ? 'Approved' : 'Rejected'}
           </button>
+          <span className="expand-arrow">{expanded ? '\u25B2' : '\u25BC'}</span>
         </div>
       </div>
 
@@ -47,8 +39,7 @@ function EmailCard({ lead, index, onUpdate }) {
         <div className="email-card-body">
           <div className="email-meta">
             <span>To: {lead.email}</span>
-            <span>Title: {lead.title}</span>
-            {lead.personal_hook && <span>Hook: {lead.personal_hook}</span>}
+            {lead.title && <span>Role: {lead.title}</span>}
           </div>
 
           {editing ? (
@@ -98,15 +89,15 @@ export default function ReviewStep({ leads, onUpdate, onNext, onBack }) {
   const approvedCount = drafted.filter((l) => l.approved).length;
 
   const approveAll = () => {
-    drafted.forEach((_, i) => {
-      const realIndex = leads.indexOf(drafted[i]);
+    drafted.forEach((lead) => {
+      const realIndex = leads.indexOf(lead);
       onUpdate(realIndex, { approved: true });
     });
   };
 
   const rejectAll = () => {
-    drafted.forEach((_, i) => {
-      const realIndex = leads.indexOf(drafted[i]);
+    drafted.forEach((lead) => {
+      const realIndex = leads.indexOf(lead);
       onUpdate(realIndex, { approved: false });
     });
   };
@@ -115,38 +106,59 @@ export default function ReviewStep({ leads, onUpdate, onNext, onBack }) {
     <div className="step-container">
       <button className="btn-back" onClick={onBack}>&larr; Back to Upload</button>
       <h2>Review Emails</h2>
-      <p className="step-desc">
-        {drafted.length} emails drafted. Click to expand, edit, and approve or reject.
-      </p>
 
-      <div className="review-actions">
-        <span>
-          {approvedCount} / {drafted.length} approved
-        </span>
-        <div>
-          <button className="btn-secondary" onClick={rejectAll}>
-            Reject All
-          </button>
-          <button className="btn-primary" onClick={approveAll} style={{ marginLeft: 8 }}>
-            Approve All
+      {drafted.length === 0 ? (
+        <div className="empty-state">
+          <p>No emails were generated.</p>
+          <p className="cell-muted">
+            Go back and make sure your CSV has leads and your template has a subject and body filled in.
+          </p>
+          <button className="btn-primary" onClick={onBack} style={{ marginTop: 16 }}>
+            &larr; Go Back
           </button>
         </div>
-      </div>
+      ) : (
+        <>
+          <p className="step-desc">
+            {drafted.length} email{drafted.length !== 1 ? 's' : ''} ready. Click any row to preview. Edit or reject before exporting.
+          </p>
 
-      <div className="email-cards">
-        {leads.map((lead, i) => (
-          <EmailCard
-            key={i}
-            lead={lead}
-            index={i}
-            onUpdate={(idx, updates) => onUpdate(idx, updates)}
-          />
-        ))}
-      </div>
+          <div className="review-actions">
+            <span>
+              {approvedCount} / {drafted.length} approved
+            </span>
+            <div>
+              <button className="btn-secondary" onClick={rejectAll}>
+                Reject All
+              </button>
+              <button className="btn-primary" onClick={approveAll} style={{ marginLeft: 8 }}>
+                Approve All
+              </button>
+            </div>
+          </div>
 
-      <button className="btn-primary" onClick={onNext} style={{ marginTop: 16 }}>
-        Export
-      </button>
+          <div className="email-cards">
+            {leads.map((lead, i) => (
+              <EmailCard
+                key={i}
+                lead={lead}
+                index={i}
+                onUpdate={(idx, updates) => onUpdate(idx, updates)}
+                defaultExpanded={i === 0 && drafted[0] === lead}
+              />
+            ))}
+          </div>
+
+          <button
+            className="btn-primary"
+            onClick={onNext}
+            disabled={approvedCount === 0}
+            style={{ marginTop: 16 }}
+          >
+            Export {approvedCount} Email{approvedCount !== 1 ? 's' : ''}
+          </button>
+        </>
+      )}
     </div>
   );
 }

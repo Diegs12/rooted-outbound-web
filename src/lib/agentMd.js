@@ -38,9 +38,14 @@ Rooted Creative turns sports sponsorship deals into content (on-site capture, sh
 - Any em dash, en dash, or double hyphen characters`;
 
 const STORAGE_KEY = 'rooted_agent_md';
-const PORTFOLIO_KEY = 'rooted_portfolio_link';
+const LINKS_KEY = 'rooted_links';
 
-const DEFAULT_PORTFOLIO = 'https://www.canva.com/design/DAGQsKjrkOM/R3CzPwcneacuNH3zyYVLBg/view?utm_content=DAGQsKjrkOM&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h51a90b688b';
+const DEFAULT_LINKS = [
+  {
+    title: 'portfolio',
+    url: 'https://www.canva.com/design/DAGQsKjrkOM/R3CzPwcneacuNH3zyYVLBg/view?utm_content=DAGQsKjrkOM&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h51a90b688b',
+  },
+];
 
 export function getAgentMd() {
   return localStorage.getItem(STORAGE_KEY) || DEFAULT_AGENT_MD;
@@ -50,12 +55,20 @@ export function setAgentMd(content) {
   localStorage.setItem(STORAGE_KEY, content);
 }
 
-export function getPortfolioLink() {
-  return localStorage.getItem(PORTFOLIO_KEY) || DEFAULT_PORTFOLIO;
+export function getLinks() {
+  const stored = localStorage.getItem(LINKS_KEY);
+  if (stored) {
+    try {
+      return JSON.parse(stored);
+    } catch {
+      return DEFAULT_LINKS;
+    }
+  }
+  return DEFAULT_LINKS;
 }
 
-export function setPortfolioLink(link) {
-  localStorage.setItem(PORTFOLIO_KEY, link);
+export function setLinks(links) {
+  localStorage.setItem(LINKS_KEY, JSON.stringify(links));
 }
 
 export function resetAgentMd() {
@@ -63,4 +76,4 @@ export function resetAgentMd() {
   return DEFAULT_AGENT_MD;
 }
 
-export { DEFAULT_AGENT_MD, DEFAULT_PORTFOLIO };
+export { DEFAULT_AGENT_MD, DEFAULT_LINKS };

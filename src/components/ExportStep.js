@@ -6,15 +6,16 @@ export default function ExportStep({ leads, onRestart, onBack }) {
   const [gmailProgress, setGmailProgress] = useState(null);
   const [gmailResult, setGmailResult] = useState(null);
   const [gmailRunning, setGmailRunning] = useState(false);
+  const [csvDownloaded, setCsvDownloaded] = useState(false);
+  const [confirmRestart, setConfirmRestart] = useState(false);
 
   const drafted = leads.filter((l) => l.status === 'drafted');
   const approved = drafted.filter((l) => l.approved);
-  const skipped = leads.filter((l) => l.status === 'skipped_tier3');
-  const errors = leads.filter((l) => l.status === 'error');
   const gmailConnected = isGmailConnected();
 
   const handleDownloadCSV = () => {
     exportCSV(leads);
+    setCsvDownloaded(true);
   };
 
   const handleCreateDrafts = async () => {
@@ -33,44 +34,30 @@ export default function ExportStep({ leads, onRestart, onBack }) {
     <div className="step-container">
       <button className="btn-back" onClick={onBack}>&larr; Back to Review</button>
       <h2>Export</h2>
-
-      <div className="stats-row" style={{ marginBottom: 24 }}>
-        <div className="stat">
-          <span className="stat-num stat-drafted">{approved.length}</span>
-          <span className="stat-label">Approved</span>
-        </div>
-        <div className="stat">
-          <span className="stat-num">{drafted.length - approved.length}</span>
-          <span className="stat-label">Rejected</span>
-        </div>
-        <div className="stat">
-          <span className="stat-num stat-skipped">{skipped.length}</span>
-          <span className="stat-label">Wrong Role</span>
-        </div>
-        <div className="stat">
-          <span className="stat-num stat-errors">{errors.length}</span>
-          <span className="stat-label">Errors</span>
-        </div>
-      </div>
+      <p className="step-desc">
+        {approved.length} approved email{approved.length !== 1 ? 's' : ''} ready to export.
+      </p>
 
       <div className="export-section">
         <h3>Download CSV</h3>
-        <p className="step-desc">Full enriched CSV with all research, emails, and status columns.</p>
+        <p className="step-desc">Get a spreadsheet with all leads, emails, and research data.</p>
         <button className="btn-primary" onClick={handleDownloadCSV}>
-          Download CSV
+          {csvDownloaded ? 'Downloaded! Click to download again' : 'Download CSV'}
         </button>
       </div>
 
       <div className="export-section">
         <h3>Create Gmail Drafts</h3>
         {!gmailConnected ? (
-          <p className="step-desc">
-            Connect Gmail in Settings first to create drafts.
-          </p>
+          <div>
+            <p className="step-desc">
+              Gmail is not connected. Go to Settings (gear icon, top right) to connect your Gmail account.
+            </p>
+          </div>
         ) : (
           <>
             <p className="step-desc">
-              Create drafts for {approved.length} approved emails in your Gmail account.
+              This will create {approved.length} draft{approved.length !== 1 ? 's' : ''} in your Gmail. You can review and send them from Gmail.
             </p>
             {!gmailResult && (
               <button
@@ -78,7 +65,7 @@ export default function ExportStep({ leads, onRestart, onBack }) {
                 onClick={handleCreateDrafts}
                 disabled={gmailRunning || approved.length === 0}
               >
-                {gmailRunning ? 'Creating...' : `Create ${approved.length} Drafts`}
+                {gmailRunning ? 'Creating drafts...' : `Create ${approved.length} Draft${approved.length !== 1 ? 's' : ''} in Gmail`}
               </button>
             )}
           </>
@@ -102,16 +89,32 @@ export default function ExportStep({ leads, onRestart, onBack }) {
 
         {gmailResult && (
           <div className="gmail-result">
-            {gmailResult.success} drafts created
-            {gmailResult.fail > 0 && `, ${gmailResult.fail} failed`}.
-            Check your Gmail Drafts folder.
+            {gmailResult.success} draft{gmailResult.success !== 1 ? 's' : ''} created.
+            {gmailResult.fail > 0 && ` ${gmailResult.fail} failed.`}
+            {' '}Open Gmail and check your Drafts folder.
           </div>
         )}
       </div>
 
-      <button className="btn-secondary" onClick={onRestart} style={{ marginTop: 32 }}>
-        Start New Batch
-      </button>
+      <div style={{ marginTop: 32 }}>
+        {!confirmRestart ? (
+          <button className="btn-secondary" onClick={() => setConfirmRestart(true)}>
+            Start New Batch
+          </button>
+        ) : (
+          <div className="confirm-restart">
+            <span>This will clear all current leads. Are you sure?</span>
+            <div style={{ display: 'flex', gap: 8, marginTop: 8 }}>
+              <button className="btn-secondary" onClick={() => setConfirmRestart(false)}>
+                Cancel
+              </button>
+              <button className="btn-primary" onClick={onRestart}>
+                Yes, start over
+              </button>
+            </div>
+          </div>
+        )}
+      </div>
     </div>
   );
 }
