@@ -6,6 +6,8 @@ const COLUMN_ALIASES = {
   'first_name': 'first_name',
   'last name': 'last_name',
   'last_name': 'last_name',
+  'name': 'name', // single name column, will be split into first_name + last_name
+  'full name': 'name',
   'email': 'email',
   'role': 'title',
   'title': 'title',
@@ -18,7 +20,8 @@ const COLUMN_ALIASES = {
   'custom intro': 'custom_intro',
 };
 
-const REQUIRED_FIELDS = ['first_name', 'last_name', 'email', 'company'];
+// Only email and company are truly required; name can come from "name" or "first name"/"last name"
+const REQUIRED_FIELDS = ['email', 'company'];
 
 function parseCSVText(text) {
   const rows = [];
@@ -85,11 +88,20 @@ export function parseCSV(file) {
         const rawHeaders = parsed[0].map((h) => h.trim().toLowerCase().replace(/[_\s]+/g, ' ').trim());
         const headers = rawHeaders.map((h) => COLUMN_ALIASES[h] || COLUMN_ALIASES[h.replace(/ /g, '_')] || h);
 
+        // Check required fields
         for (const field of REQUIRED_FIELDS) {
           if (!headers.includes(field)) {
             reject(new Error(`Missing required column: "${field}". Found: ${rawHeaders.join(', ')}`));
             return;
           }
+        }
+
+        // Need either "name" or both "first_name" and "last_name"
+        const hasName = headers.includes('name');
+        const hasFirstLast = headers.includes('first_name') && headers.includes('last_name');
+        if (!hasName && !hasFirstLast) {
+          reject(new Error('Need either a "Name" column or both "First Name" and "Last Name" columns.'));
+          return;
         }
 
         const seen = new Set();
@@ -103,7 +115,14 @@ export function parseCSV(file) {
             obj[h] = (row[idx] || '').trim();
           });
 
-          const email = obj.email.toLowerCase().trim();
+          // Split single "name" into first_name + last_name
+          if (hasName && !hasFirstLast) {
+            const parts = (obj.name || '').split(/\s+/);
+            obj.first_name = parts[0] || '';
+            obj.last_name = parts.slice(1).join(' ') || '';
+          }
+
+          const email = (obj.email || '').toLowerCase().trim();
           if (!email || seen.has(email)) {
             dupeCount++;
             continue;
