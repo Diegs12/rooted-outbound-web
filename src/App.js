@@ -20,10 +20,12 @@ export default function App() {
 
   const handleTemplateReady = useCallback((parsedLeads, subject, body) => {
     const merged = parsedLeads.map((lead) => {
+      const fullName = [lead.first_name, lead.last_name].filter(Boolean).join(' ');
       const merge = (str) =>
         str
           .replace(/\{first_name\}/g, lead.first_name || '')
           .replace(/\{last_name\}/g, lead.last_name || '')
+          .replace(/\{name\}/g, fullName)
           .replace(/\{email\}/g, lead.email || '')
           .replace(/\{company\}/g, lead.company || '')
           .replace(/\{title\}/g, lead.title || '')

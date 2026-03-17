@@ -1,16 +1,17 @@
 import React, { useCallback, useState, useRef } from 'react';
 import { parseCSV } from '../lib/csvParser';
 
-const MERGE_TAGS = ['{first_name}', '{last_name}', '{email}', '{company}', '{title}', '{city}', '{custom_intro}'];
+const MERGE_TAGS = ['{first_name}', '{last_name}', '{name}', '{email}', '{company}', '{title}', '{city}', '{custom_intro}'];
 
 export default function UploadStep({ onLeadsLoaded, onTemplateReady }) {
   const [dragOver, setDragOver] = useState(false);
   const [error, setError] = useState(null);
   const [preview, setPreview] = useState(null);
   const [dupeCount, setDupeCount] = useState(0);
-  const [mode, setMode] = useState('ai'); // 'ai' or 'template'
+  const [mode, setMode] = useState('template'); // default to template since that's what Diego uses most
   const [templateSubject, setTemplateSubject] = useState('');
   const [templateBody, setTemplateBody] = useState('');
+  const [lastFocused, setLastFocused] = useState('template-body');
   const fileInputRef = useRef();
 
   const handleFile = useCallback(async (file) => {
@@ -48,8 +49,10 @@ export default function UploadStep({ onLeadsLoaded, onTemplateReady }) {
     [handleFile]
   );
 
-  const insertTag = (tag, setter, inputId) => {
-    const el = document.getElementById(inputId);
+  const insertTag = (tag) => {
+    const targetId = lastFocused;
+    const setter = targetId === 'template-subject' ? setTemplateSubject : setTemplateBody;
+    const el = document.getElementById(targetId);
     if (!el) return;
     const start = el.selectionStart;
     const end = el.selectionEnd;
@@ -64,7 +67,7 @@ export default function UploadStep({ onLeadsLoaded, onTemplateReady }) {
     <div className="step-container">
       <h2>Upload Leads</h2>
       <p className="step-desc">
-        Drop a CSV with columns: Brand, First Name, Last Name, Email. Optional: Role, Location, Website, Custom Intro
+        Drop a CSV with columns: Brand, Name, Email. Optional: Role, Location, Website, Custom Intro
       </p>
 
       <div
@@ -136,16 +139,16 @@ export default function UploadStep({ onLeadsLoaded, onTemplateReady }) {
 
           <div className="mode-toggle">
             <button
-              className={`mode-btn ${mode === 'ai' ? 'mode-btn-active' : ''}`}
-              onClick={() => setMode('ai')}
-            >
-              AI Pipeline
-            </button>
-            <button
               className={`mode-btn ${mode === 'template' ? 'mode-btn-active' : ''}`}
               onClick={() => setMode('template')}
             >
               Template
+            </button>
+            <button
+              className={`mode-btn ${mode === 'ai' ? 'mode-btn-active' : ''}`}
+              onClick={() => setMode('ai')}
+            >
+              AI Pipeline
             </button>
           </div>
 
@@ -158,14 +161,14 @@ export default function UploadStep({ onLeadsLoaded, onTemplateReady }) {
           {mode === 'template' && (
             <div className="template-section">
               <p className="step-desc" style={{ marginTop: 0 }}>
-                Paste your subject and body. Use merge tags to personalize. Add a <code>custom_intro</code> column in your CSV for per-lead openers.
+                Paste your subject and body. Use merge tags to personalize.
               </p>
               <div className="merge-tags">
                 {MERGE_TAGS.map((tag) => (
                   <button
                     key={tag}
                     className="merge-tag"
-                    onClick={() => insertTag(tag, setTemplateBody, 'template-body')}
+                    onClick={() => insertTag(tag)}
                   >
                     {tag}
                   </button>
@@ -177,6 +180,7 @@ export default function UploadStep({ onLeadsLoaded, onTemplateReady }) {
                 type="text"
                 value={templateSubject}
                 onChange={(e) => setTemplateSubject(e.target.value)}
+                onFocus={() => setLastFocused('template-subject')}
                 className="input-field"
                 placeholder="e.g. Quick idea for {company}"
               />
@@ -185,6 +189,7 @@ export default function UploadStep({ onLeadsLoaded, onTemplateReady }) {
                 id="template-body"
                 value={templateBody}
                 onChange={(e) => setTemplateBody(e.target.value)}
+                onFocus={() => setLastFocused('template-body')}
                 rows={10}
                 className="input-field"
                 placeholder={`Hi {first_name},\n\nYour email body here...\n\nDiego`}
