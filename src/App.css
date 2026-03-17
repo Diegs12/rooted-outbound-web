@@ -743,6 +743,23 @@ tr:last-child td {
   font-size: 14px;
 }
 
+/* === Back Button === */
+.btn-back {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-size: 13px;
+  cursor: pointer;
+  padding: 0;
+  margin-bottom: 12px;
+  display: inline-block;
+  transition: color 0.15s;
+}
+
+.btn-back:hover {
+  color: var(--text);
+}
+
 /* === Error === */
 .error-msg {
   background: rgba(248, 113, 113, 0.1);

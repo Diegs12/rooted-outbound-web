@@ -16,7 +16,7 @@ function StepBadge({ step }) {
   return <span className={`badge ${cls}`}>{step}</span>;
 }
 
-export default function ProcessingStep({ leads: initialLeads, onComplete }) {
+export default function ProcessingStep({ leads: initialLeads, onComplete, onBack }) {
   const [leads, setLeads] = useState(initialLeads);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [stats, setStats] = useState({ total: initialLeads.length, completed: 0, drafted: 0, skipped: 0, errors: 0 });
@@ -49,6 +49,7 @@ export default function ProcessingStep({ leads: initialLeads, onComplete }) {
 
   return (
     <div className="step-container">
+      <button className="btn-back" onClick={onBack}>&larr; Back</button>
       <h2>Processing</h2>
 
       <div className="progress-bar-wrap">

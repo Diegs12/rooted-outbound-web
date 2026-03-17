@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { exportCSV } from '../lib/csvExport';
 import { createAllDrafts, isGmailConnected } from '../pipeline/gmailDraft';
 
-export default function ExportStep({ leads, onRestart }) {
+export default function ExportStep({ leads, onRestart, onBack }) {
   const [gmailProgress, setGmailProgress] = useState(null);
   const [gmailResult, setGmailResult] = useState(null);
   const [gmailRunning, setGmailRunning] = useState(false);
@@ -31,6 +31,7 @@ export default function ExportStep({ leads, onRestart }) {
 
   return (
     <div className="step-container">
+      <button className="btn-back" onClick={onBack}>&larr; Back to Review</button>
       <h2>Export</h2>
 
       <div className="stats-row" style={{ marginBottom: 24 }}>

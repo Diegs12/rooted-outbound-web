@@ -93,7 +93,7 @@ function EmailCard({ lead, index, onUpdate }) {
   );
 }
 
-export default function ReviewStep({ leads, onUpdate, onNext }) {
+export default function ReviewStep({ leads, onUpdate, onNext, onBack }) {
   const drafted = leads.filter((l) => l.status === 'drafted');
   const approvedCount = drafted.filter((l) => l.approved).length;
 
@@ -113,6 +113,7 @@ export default function ReviewStep({ leads, onUpdate, onNext }) {
 
   return (
     <div className="step-container">
+      <button className="btn-back" onClick={onBack}>&larr; Back to Upload</button>
       <h2>Review Emails</h2>
       <p className="step-desc">
         {drafted.length} emails drafted. Click to expand, edit, and approve or reject.

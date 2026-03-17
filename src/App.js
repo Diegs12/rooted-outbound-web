@@ -100,13 +100,13 @@ export default function App() {
 
         {!showSettings && step === 0 && <UploadStep onLeadsLoaded={handleLeadsLoaded} onTemplateReady={handleTemplateReady} />}
         {!showSettings && step === 1 && (
-          <ProcessingStep leads={leads} onComplete={handleProcessingComplete} />
+          <ProcessingStep leads={leads} onComplete={handleProcessingComplete} onBack={() => setStep(0)} />
         )}
         {!showSettings && step === 2 && (
-          <ReviewStep leads={leads} onUpdate={handleLeadUpdate} onNext={() => setStep(3)} />
+          <ReviewStep leads={leads} onUpdate={handleLeadUpdate} onNext={() => setStep(3)} onBack={() => setStep(0)} />
         )}
         {!showSettings && step === 3 && (
-          <ExportStep leads={leads} onRestart={handleRestart} />
+          <ExportStep leads={leads} onRestart={handleRestart} onBack={() => setStep(2)} />
         )}
       </main>
     </div>
