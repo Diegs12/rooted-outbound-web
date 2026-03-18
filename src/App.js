@@ -88,7 +88,7 @@ export default function App() {
     <div className="app">
       <header className="header">
         <div className="header-left">
-          <h1 className="logo">Rooted Outbound</h1>
+          <h1 className="logo">Rooted <span>Outbound</span></h1>
         </div>
         <nav className="stepper">
           {STEP_LABELS.map((label, i) => (

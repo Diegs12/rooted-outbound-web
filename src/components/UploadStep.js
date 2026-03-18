@@ -66,9 +66,9 @@ export default function UploadStep({ onLeadsLoaded, onTemplateReady }) {
 
   return (
     <div className="step-container">
-      <h2>Upload Leads</h2>
+      <h2>Upload Your Leads</h2>
       <p className="step-desc">
-        Drop a CSV with columns: Brand, Name, Email. Optional: Role, Location, Website, Custom Intro
+        Export your lead list from Google Sheets as a CSV. Needs columns: Brand, Name, Email. Optional: Role, Location, Website.
       </p>
 
       <div
@@ -87,7 +87,8 @@ export default function UploadStep({ onLeadsLoaded, onTemplateReady }) {
             <polyline points="17 8 12 3 7 8" />
             <line x1="12" y1="3" x2="12" y2="15" />
           </svg>
-          <p>Drop CSV here or click to browse</p>
+          <p>Drop your CSV here or click to browse</p>
+          <span className="dropzone-hint">Exports from Google Sheets, Excel, or any spreadsheet app work great</span>
         </div>
         <input
           ref={fileInputRef}

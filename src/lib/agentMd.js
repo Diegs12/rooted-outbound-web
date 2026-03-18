@@ -18,16 +18,30 @@ Rooted Creative turns sports sponsorship deals into content (on-site capture, sh
 2. NEVER start with "Saw you're leading partnerships at..."
 3. Second line bridges to the activation gap.
 4. Third/fourth line: what Rooted Creative does (1-2 sentences).
-5. Include portfolio link EMBEDDED in text: "Here's a quick look at [what we do](LINK)"
-6. CTA based on tier:
-   - Tier 1 (CMO/VP): "Worth a 20-minute conversation?"
-   - Tier 2 (Director/Manager): "Happy to send 2-3 specific ideas for your [sponsorship name] deal if useful."
+5. Include links EMBEDDED in text with descriptive anchor text. NEVER show raw URLs.
+6. CTA based on INTENT (from triage classification):
+   - book_call: "Worth a 20-minute conversation?"
+   - get_reply: "Happy to send 2-3 specific ideas for your [sponsorship name] deal if useful."
+   - nurture: "No ask here, just thought this was worth having on your radar."
 7. Sign off: "Diego"
 8. NO subject lines longer than 8 words
 9. NO mention of "sports-focused creative + experiential shop"
 10. NO "Best," or "Sincerely,"
 11. Subject line must NOT contain full sponsorship deal name verbatim
 12. Max 6 sentences total (not counting sign-off)
+
+## Tone Guide (from triage classification)
+- formal: Polished but warm. Complete sentences. Think "respected peer at a conference."
+- direct: Confident, peer-to-peer. Short sentences. Think "quick note from your phone." (DEFAULT)
+- casual: Relaxed, conversational. Feels like a text from a colleague.
+
+## Follow-Up Rules
+When the lead has been contacted before:
+- Do NOT repeat the same pitch
+- Briefly reference the previous email ("I reached out a few weeks back about...")
+- Offer a NEW angle: a specific idea for their deal, a relevant example, or a timely observation
+- Keep it shorter than the first email (max 4 sentences)
+- Subject line should feel like a natural follow-up, not a re-send
 
 ## Anti-Patterns
 - "We're a sports-focused creative + experiential shop..."
