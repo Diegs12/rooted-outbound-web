@@ -9,11 +9,20 @@ export default function UploadStep({ onLeadsLoaded, onTemplateReady }) {
   const [error, setError] = useState(null);
   const [preview, setPreview] = useState(null);
   const [dupeCount, setDupeCount] = useState(0);
-  const [mode, setMode] = useState('template'); // default to template since that's what Diego uses most
+  const [mode, setMode] = useState('template');
   const [templateSubject, setTemplateSubject] = useState('');
   const [templateBody, setTemplateBody] = useState('');
-  const [lastFocused, setLastFocused] = useState('template-body');
   const fileInputRef = useRef();
+
+  // Track which field + cursor position so clicks on tags don't lose it
+  const lastCursor = useRef({ id: 'template-body', start: 0, end: 0 });
+
+  const saveCursor = (id) => {
+    const el = document.getElementById(id);
+    if (el) {
+      lastCursor.current = { id, start: el.selectionStart, end: el.selectionEnd };
+    }
+  };
 
   const handleFile = useCallback(async (file) => {
     setError(null);
@@ -51,18 +60,54 @@ export default function UploadStep({ onLeadsLoaded, onTemplateReady }) {
   );
 
   const insertTag = (tag) => {
-    const targetId = lastFocused;
-    const setter = targetId === 'template-subject' ? setTemplateSubject : setTemplateBody;
-    const el = document.getElementById(targetId);
-    if (!el) return;
-    const start = el.selectionStart;
-    const end = el.selectionEnd;
+    const { id, start, end } = lastCursor.current;
+    const setter = id === 'template-subject' ? setTemplateSubject : setTemplateBody;
     setter((prev) => prev.slice(0, start) + tag + prev.slice(end));
+    const newPos = start + tag.length;
     setTimeout(() => {
-      el.focus();
-      el.setSelectionRange(start + tag.length, start + tag.length);
+      const el = document.getElementById(id);
+      if (el) {
+        el.focus();
+        el.setSelectionRange(newPos, newPos);
+      }
     }, 0);
   };
+
+  const handleTagDragStart = (e, tag) => {
+    e.dataTransfer.setData('text/plain', tag);
+    e.dataTransfer.effectAllowed = 'copy';
+  };
+
+  const handleFieldDrop = (e, fieldId, setter) => {
+    e.preventDefault();
+    const tag = e.dataTransfer.getData('text/plain');
+    if (!tag.startsWith('{')) return;
+
+    // Get drop position from the caret
+    const el = document.getElementById(fieldId);
+    if (!el) return;
+
+    // For textarea/input, use document.caretPositionFromPoint or fallback to end
+    let pos = el.value.length;
+    if (document.caretRangeFromPoint) {
+      // Approximate: insert at end of current value (browser caret APIs are unreliable for inputs)
+      // Better approach: use the saved cursor or append
+    }
+    // Insert at cursor if field was focused, otherwise append
+    if (lastCursor.current.id === fieldId) {
+      pos = lastCursor.current.start;
+    }
+
+    setter((prev) => prev.slice(0, pos) + tag + prev.slice(pos));
+    const newPos = pos + tag.length;
+    setTimeout(() => {
+      el.focus();
+      el.setSelectionRange(newPos, newPos);
+      lastCursor.current = { id: fieldId, start: newPos, end: newPos };
+    }, 0);
+  };
+
+  const allTags = [...BASE_TAGS, ...getLinks().filter(l => l.title && l.url).map(l => `{${l.title.toLowerCase().replace(/\s+/g, '_')}_link}`)];
 
   return (
     <div className="step-container">
@@ -163,13 +208,16 @@ export default function UploadStep({ onLeadsLoaded, onTemplateReady }) {
           {mode === 'template' && (
             <div className="template-section">
               <p className="step-desc" style={{ marginTop: 0 }}>
-                Paste your subject and body. Use merge tags to personalize.
+                Click or drag merge tags into subject or body to personalize each email.
               </p>
               <div className="merge-tags">
-                {[...BASE_TAGS, ...getLinks().filter(l => l.title && l.url).map(l => `{${l.title.toLowerCase().replace(/\s+/g, '_')}_link}`)].map((tag) => (
+                {allTags.map((tag) => (
                   <button
                     key={tag}
                     className={`merge-tag ${tag.endsWith('_link}') ? 'merge-tag-link' : ''}`}
+                    draggable
+                    onDragStart={(e) => handleTagDragStart(e, tag)}
+                    onMouseDown={(e) => e.preventDefault()}
                     onClick={() => insertTag(tag)}
                   >
                     {tag}
@@ -182,7 +230,11 @@ export default function UploadStep({ onLeadsLoaded, onTemplateReady }) {
                 type="text"
                 value={templateSubject}
                 onChange={(e) => setTemplateSubject(e.target.value)}
-                onFocus={() => setLastFocused('template-subject')}
+                onFocus={() => saveCursor('template-subject')}
+                onClick={() => saveCursor('template-subject')}
+                onKeyUp={() => saveCursor('template-subject')}
+                onDragOver={(e) => e.preventDefault()}
+                onDrop={(e) => handleFieldDrop(e, 'template-subject', setTemplateSubject)}
                 className="input-field"
                 placeholder="e.g. Quick idea for {company}"
               />
@@ -191,7 +243,11 @@ export default function UploadStep({ onLeadsLoaded, onTemplateReady }) {
                 id="template-body"
                 value={templateBody}
                 onChange={(e) => setTemplateBody(e.target.value)}
-                onFocus={() => setLastFocused('template-body')}
+                onFocus={() => saveCursor('template-body')}
+                onClick={() => saveCursor('template-body')}
+                onKeyUp={() => saveCursor('template-body')}
+                onDragOver={(e) => e.preventDefault()}
+                onDrop={(e) => handleFieldDrop(e, 'template-body', setTemplateBody)}
                 rows={10}
                 className="input-field"
                 placeholder={`Hi {first_name},\n\nYour email body here...\n\nDiego`}

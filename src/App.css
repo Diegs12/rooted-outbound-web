@@ -560,8 +560,13 @@ tr:hover td {
   border: 1px solid var(--border);
   border-radius: 20px;
   color: var(--accent);
-  cursor: pointer;
+  cursor: grab;
   transition: var(--transition);
+  user-select: none;
+}
+
+.merge-tag:active {
+  cursor: grabbing;
 }
 
 .merge-tag:hover {
