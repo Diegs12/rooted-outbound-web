@@ -726,6 +726,47 @@ h1 {
   }
 }
 
+/* Amplification collage (content that lives on) */
+.amplify-grid {
+  max-width: var(--max);
+  margin: 2.6rem auto 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+}
+
+.amplify-card {
+  flex: 0 1 calc(20% - 0.8rem);
+  min-width: 150px;
+  max-width: 240px;
+  margin: 0;
+  aspect-ratio: 535 / 840;
+  overflow: hidden;
+  background: var(--charcoal);
+  border: 1px solid var(--cream-border);
+}
+
+.amplify-card img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: bottom;
+}
+
+@media (max-width: 900px) {
+  .amplify-card {
+    flex: 0 1 calc(33.333% - 0.7rem);
+  }
+}
+
+@media (max-width: 520px) {
+  .amplify-card {
+    flex: 0 1 calc(50% - 0.5rem);
+  }
+}
+
 .case-gallery img {
   display: block;
   height: 100%;
