@@ -1354,3 +1354,83 @@ a:focus-visible {
     transition: none !important;
   }
 }
+
+/* How we think — activation playbook section */
+.playbook-section {
+  background:
+    radial-gradient(circle at 12% 0%, rgba(223, 255, 0, 0.06), transparent 26%),
+    repeating-linear-gradient(0deg, transparent 0 40px, rgba(248, 243, 234, 0.04) 40px 41px),
+    repeating-linear-gradient(90deg, transparent 0 40px, rgba(248, 243, 234, 0.04) 40px 41px),
+    var(--black);
+  color: var(--white);
+}
+.playbook-head {
+  margin: 0 auto;
+  max-width: var(--max);
+  text-align: center;
+}
+.playbook-head .section-kicker {
+  color: var(--acid);
+}
+.playbook-head h2 {
+  font-size: clamp(2.7rem, 5.2vw, 5.15rem);
+  line-height: 0.88;
+  margin: 0 auto;
+  max-width: 16ch;
+}
+.playbook-intro {
+  color: var(--muted);
+  font-size: clamp(1.05rem, 1.5vw, 1.25rem);
+  line-height: 1.55;
+  margin: 1.4rem auto 0;
+  max-width: 62ch;
+}
+.playbook-grid {
+  background: var(--cream-border);
+  border: 1px solid var(--cream-border);
+  display: grid;
+  gap: 1px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin: 2.8rem auto 0;
+  max-width: var(--max);
+}
+.play {
+  background: #080808;
+  padding: clamp(1.6rem, 2.6vw, 2.4rem);
+}
+.play-num {
+  color: var(--acid);
+  display: block;
+  font-family: var(--condensed);
+  font-size: clamp(2rem, 3.4vw, 2.9rem);
+  font-weight: 950;
+  line-height: 1;
+  margin-bottom: 0.85rem;
+}
+.play h3 {
+  font-size: clamp(1.4rem, 2.1vw, 1.9rem);
+  line-height: 1.04;
+  margin-bottom: 0.7rem;
+}
+.play p {
+  color: var(--muted);
+  font-size: 1.02rem;
+  line-height: 1.6;
+}
+.playbook-footnote {
+  border-top: 1px solid var(--cream-border);
+  color: var(--white);
+  font-family: var(--condensed);
+  font-size: clamp(1.05rem, 1.6vw, 1.4rem);
+  font-weight: 800;
+  letter-spacing: 0.01em;
+  margin: 2.4rem auto 0;
+  max-width: var(--max);
+  padding-top: 1.6rem;
+  text-align: center;
+}
+@media (max-width: 720px) {
+  .playbook-grid {
+    grid-template-columns: 1fr;
+  }
+}
