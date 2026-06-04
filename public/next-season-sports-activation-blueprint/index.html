@@ -9,7 +9,7 @@
       content="Get a free 60-minute sports activation working session with custom concepts, visual direction, budget ranges, and production guidance."
     />
     <link rel="canonical" href="/next-season-sports-activation-blueprint/" />
-    <link rel="stylesheet" href="./styles.css?v=amplify-millions" />
+    <link rel="stylesheet" href="./styles.css?v=orbit-3d" />
     <!-- TODO: Add your Google Tag Manager or GA4 snippet here after creating the measurement property. -->
   </head>
   <body>
@@ -275,6 +275,26 @@
             </figure>
           </div>
         </article>
+      </section>
+
+      <section class="orbit-section" id="orbit-section" aria-labelledby="orbit-heading">
+        <div class="orbit-stage" id="orbit"></div>
+        <div class="orbit-overlay">
+          <p class="section-kicker">Selected work</p>
+          <h2 id="orbit-heading">Step inside the work.</h2>
+        </div>
+        <span class="orbit-hint">Scroll to move through it</span>
+        <div class="orbit-fallback">
+          <img src="./assets/amplify/amplify-celsius-energy.jpg" alt="Celsius activation content" loading="lazy" />
+          <img src="./assets/case-studies/stoopdayz/stoopdayz-bengals.jpg" alt="Stoop Dayz activation" loading="lazy" />
+          <img src="./assets/amplify/amplify-fenty-keychains.jpg" alt="Fenty Beauty activation content" loading="lazy" />
+          <img src="./assets/case-studies/seadoo/seadoo-club.jpg" alt="Sea-Doo Social Club" loading="lazy" />
+          <img src="./assets/reel/celsius-fiesta.jpg" alt="Celsius MLS Fiesta" loading="lazy" />
+          <img src="./assets/case-studies/celsius/fanfest-sunset.jpg" alt="Celsius MLS Fan Fest" loading="lazy" />
+          <img src="./assets/amplify/amplify-seadoo-ride.jpg" alt="Sea-Doo Social Club content" loading="lazy" />
+          <img src="./assets/case-studies/kendo/fenty-environment.jpg" alt="Fenty Beauty environment" loading="lazy" />
+          <img src="./assets/reel/adidas-drip.jpg" alt="Adidas Baseball Drip" loading="lazy" />
+        </div>
       </section>
 
       <section class="section visual-proof-section" aria-labelledby="reel-heading">
@@ -598,6 +618,156 @@
           fig.classList.add("is-playing");
         });
       });
+    </script>
+    <script type="module">
+      (() => {
+        const section = document.getElementById("orbit-section");
+        const mount = document.getElementById("orbit");
+        if (!section || !mount) return;
+
+        const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+        const small = matchMedia("(max-width: 820px)").matches;
+        let webglOK = false;
+        try {
+          const c = document.createElement("canvas");
+          webglOK = !!(window.WebGLRenderingContext && (c.getContext("webgl") || c.getContext("experimental-webgl")));
+        } catch (e) {}
+        if (reduce || small || !webglOK) return; // keep static fallback grid
+
+        const IMAGES = [
+          "./assets/reel/celsius-fiesta.jpg",
+          "./assets/reel/adidas-drip.jpg",
+          "./assets/reel/sonic-temple.jpg",
+          "./assets/reel/adidas-littleleague.jpg",
+          "./assets/reel/tailgreeter-curebowl.jpg",
+          "./assets/reel/advent-5k.jpg",
+          "./assets/reel/mls-quest.jpg",
+          "./assets/reel/bodyarmor-kroger.jpg",
+          "./assets/reel/celsius-preakness.jpg",
+          "./assets/reel/pride-glory.jpg",
+          "./assets/amplify/amplify-celsius-energy.jpg",
+          "./assets/amplify/amplify-fenty-keychains.jpg",
+          "./assets/amplify/amplify-celsius-woman.jpg",
+          "./assets/amplify/amplify-seadoo-cmo.jpg",
+          "./assets/amplify/amplify-seadoo-ride.jpg",
+          "./assets/amplify/amplify-fenty-neon.jpg",
+          "./assets/amplify/amplify-seadoo-booth.jpg",
+          "./assets/amplify/amplify-celsius-can.jpg",
+          "./assets/amplify/amplify-seadoo-pov.jpg",
+          "./assets/case-studies/celsius/fanfest-sunset.jpg",
+          "./assets/case-studies/celsius/mediatour-foosball.jpg",
+          "./assets/case-studies/celsius/mlscup-juggle.jpg",
+          "./assets/case-studies/seadoo/seadoo-club.jpg",
+          "./assets/case-studies/seadoo/seadoo-action.jpg",
+          "./assets/case-studies/stoopdayz/stoopdayz-bengals.jpg",
+          "./assets/case-studies/stoopdayz/stoopdayz-product.jpg",
+          "./assets/case-studies/kendo/fenty-environment.jpg",
+          "./assets/case-studies/kendo/ole-overview.jpg",
+          "./assets/proof/advent-motion.jpg",
+          "./assets/proof/koddi-shoptalk.jpg",
+        ];
+
+        let started = false;
+        const trigger = new IntersectionObserver((entries) => {
+          entries.forEach((e) => {
+            if (e.isIntersecting && !started) {
+              started = true;
+              start();
+            }
+          });
+        }, { rootMargin: "200px" });
+        trigger.observe(section);
+
+        async function start() {
+          let THREE;
+          try {
+            THREE = await import("./assets/vendor/three.module.js");
+          } catch (err) {
+            console.warn("3D gallery failed to load", err);
+            return;
+          }
+          section.classList.add("webgl");
+
+          let W = mount.clientWidth, H = mount.clientHeight;
+          const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: "high-performance" });
+          renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+          renderer.setSize(W, H);
+          renderer.outputColorSpace = THREE.SRGBColorSpace;
+          mount.appendChild(renderer.domElement);
+
+          const scene = new THREE.Scene();
+          scene.fog = new THREE.FogExp2(0x050505, 0.026);
+          const camera = new THREE.PerspectiveCamera(58, W / H, 0.1, 220);
+          camera.position.set(0, 0, 15);
+
+          const geo = new THREE.PlaneGeometry(1, 1);
+          const loader = new THREE.TextureLoader();
+          const cards = [];
+          const N = IMAGES.length;
+          const GOLDEN = Math.PI * (3 - Math.sqrt(5));
+
+          IMAGES.forEach((src, i) => {
+            const ang = i * GOLDEN;
+            const r = 5.4 + (i % 6) * 1.15;
+            const z = 2 - (i / N) * 32 - Math.random() * 1.6;
+            const baseH = 2.4 + Math.random() * 1.9;
+            const tex = loader.load(src, (t) => {
+              const im = t.image;
+              const a = im && im.width && im.height ? im.width / im.height : 1;
+              mesh.scale.set(baseH * a, baseH, 1);
+            });
+            tex.colorSpace = THREE.SRGBColorSpace;
+            const mat = new THREE.MeshBasicMaterial({ map: tex, transparent: true, side: THREE.DoubleSide });
+            const mesh = new THREE.Mesh(geo, mat);
+            mesh.position.set(Math.cos(ang) * r * 1.3, Math.sin(ang) * r * 0.78, z);
+            mesh.scale.set(baseH * 1.4, baseH, 1);
+            mesh.rotation.z = (Math.random() - 0.5) * 0.12;
+            scene.add(mesh);
+            cards.push({ mesh, baseY: mesh.position.y, baseRotZ: mesh.rotation.z, phase: Math.random() * Math.PI * 2 });
+          });
+
+          let tx = 0, ty = 0, camX = 0, camY = 0, scrollT = 0, inView = true;
+          window.addEventListener("mousemove", (e) => {
+            tx = (e.clientX / window.innerWidth) * 2 - 1;
+            ty = (e.clientY / window.innerHeight) * 2 - 1;
+          });
+          function onScroll() {
+            const rect = section.getBoundingClientRect();
+            scrollT = Math.min(Math.max((window.innerHeight - rect.top) / (window.innerHeight + rect.height), 0), 1);
+          }
+          window.addEventListener("scroll", onScroll, { passive: true });
+          onScroll();
+          new IntersectionObserver((es) => es.forEach((e) => (inView = e.isIntersecting)), { threshold: 0 }).observe(section);
+          window.addEventListener("resize", () => {
+            W = mount.clientWidth; H = mount.clientHeight;
+            renderer.setSize(W, H);
+            camera.aspect = W / H;
+            camera.updateProjectionMatrix();
+          });
+
+          const clock = new THREE.Clock();
+          function animate() {
+            requestAnimationFrame(animate);
+            if (!inView) return;
+            const t = clock.getElapsedTime();
+            for (let i = 0; i < cards.length; i++) {
+              const c = cards[i];
+              c.mesh.position.y = c.baseY + Math.sin(t * 0.32 + c.phase) * 0.34;
+              c.mesh.rotation.z = c.baseRotZ + Math.sin(t * 0.18 + c.phase) * 0.03;
+              c.mesh.rotation.y = tx * 0.14;
+            }
+            const targetZ = 15 - scrollT * 18;
+            camera.position.z += (targetZ - camera.position.z) * 0.06;
+            camX += (tx * 3 - camX) * 0.05;
+            camY += (-ty * 2 - camY) * 0.05;
+            camera.position.x = camX;
+            camera.position.y = camY;
+            camera.lookAt(0, 0, camera.position.z - 12);
+            renderer.render(scene, camera);
+          }
+          animate();
+        }
+      })();
     </script>
   </body>
 </html>
