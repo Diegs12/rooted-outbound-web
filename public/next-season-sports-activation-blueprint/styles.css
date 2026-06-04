@@ -726,7 +726,19 @@ h1 {
   }
 }
 
-/* Amplification collage (content that lives on) */
+/* Amplification wall (single composite image) */
+.amplify-wall {
+  margin: 2.6rem auto 0;
+  max-width: var(--max);
+}
+
+.amplify-wall img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* Amplification collage (legacy multi-card, unused) */
 .amplify-grid {
   max-width: var(--max);
   margin: 2.6rem auto 0;
