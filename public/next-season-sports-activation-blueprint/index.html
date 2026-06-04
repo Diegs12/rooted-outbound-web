@@ -9,7 +9,7 @@
       content="Get a free 60-minute sports activation working session with custom concepts, visual direction, budget ranges, and production guidance."
     />
     <link rel="canonical" href="/next-season-sports-activation-blueprint/" />
-    <link rel="stylesheet" href="./styles.css?v=stoopdayz-final-imgs" />
+    <link rel="stylesheet" href="./styles.css?v=video-embeds" />
     <!-- TODO: Add your Google Tag Manager or GA4 snippet here after creating the measurement property. -->
   </head>
   <body>
@@ -107,8 +107,9 @@
             </ul>
           </div>
           <div class="case-gallery case-gallery-fanfest">
-            <figure class="case-large">
+            <figure class="case-large case-video" data-vimeo="https://player.vimeo.com/video/1107111804">
               <img src="./assets/case-studies/celsius/fanfest-sunset.jpg" alt="Celsius branded activation lit up at sunset with a crowd of fans at the MLS All-Star Fan Fest in Austin" loading="lazy" />
+              <span class="video-cover"><span class="video-play-icon" aria-hidden="true"></span><span class="video-label">Click to view</span></span>
             </figure>
             <figure>
               <img src="./assets/case-studies/celsius/fanfest-footprint.jpg" alt="Daytime view of the open-air Celsius footprint with branded structure and guests on the grass" loading="lazy" />
@@ -133,8 +134,9 @@
             </ul>
           </div>
           <div class="case-gallery case-gallery-tour">
-            <figure class="case-large">
+            <figure class="case-large case-video" data-vimeo="https://player.vimeo.com/video/1127380029?h=4e2619fa8a">
               <img src="./assets/case-studies/celsius/mediatour-foosball.jpg" alt="MLS players competing on a Celsius-branded foosball table in front of an MLS partnership wall" loading="lazy" />
+              <span class="video-cover"><span class="video-play-icon" aria-hidden="true"></span><span class="video-label">Click to view</span></span>
             </figure>
             <figure class="case-large">
               <img src="./assets/case-studies/celsius/mediatour-ballwall.jpg" alt="Wall of every MLS club ball beside Official Energy Drink Partner of MLS Celsius signage" loading="lazy" />
@@ -234,8 +236,9 @@
             </ul>
           </div>
           <div class="case-gallery case-gallery-fenty">
-            <figure class="case-large">
+            <figure class="case-large case-video" data-vimeo="https://player.vimeo.com/video/1184919403">
               <img src="./assets/case-studies/kendo/fenty-environment.jpg" alt="Fenty Beauty event environment with product displays and branded wall graphics" loading="lazy" />
+              <span class="video-cover"><span class="video-play-icon" aria-hidden="true"></span><span class="video-label">Click to view</span></span>
             </figure>
             <figure>
               <img src="./assets/case-studies/kendo/fenty-interaction.jpg" alt="Guests interacting with Fenty Beauty products inside a branded activation" loading="lazy" />
@@ -260,8 +263,9 @@
             </ul>
           </div>
           <div class="case-gallery case-gallery-ole">
-            <figure class="case-large">
+            <figure class="case-large case-video" data-vimeo="https://player.vimeo.com/video/1185931293">
               <img src="./assets/case-studies/kendo/ole-overview.jpg" alt="Ole Henriksen activation overview with bright pink branded build and guest traffic" loading="lazy" />
+              <span class="video-cover"><span class="video-play-icon" aria-hidden="true"></span><span class="video-label">Click to view</span></span>
             </figure>
             <figure>
               <img src="./assets/case-studies/kendo/ole-neon.jpg" alt="Ole Henriksen neon product wall for Pout Preserve Chillers" loading="lazy" />
@@ -464,6 +468,22 @@
               link_url: link.href
             });
           }
+        });
+      });
+
+      document.querySelectorAll(".case-video").forEach((fig) => {
+        fig.addEventListener("click", () => {
+          if (fig.classList.contains("is-playing")) return;
+          const src = fig.dataset.vimeo;
+          if (!src) return;
+          const iframe = document.createElement("iframe");
+          const sep = src.includes("?") ? "&" : "?";
+          iframe.src = src + sep + "autoplay=1";
+          iframe.title = "Rooted Creative activation video";
+          iframe.setAttribute("allow", "autoplay; fullscreen; picture-in-picture");
+          iframe.setAttribute("allowfullscreen", "");
+          fig.appendChild(iframe);
+          fig.classList.add("is-playing");
         });
       });
     </script>
