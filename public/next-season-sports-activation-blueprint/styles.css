@@ -583,6 +583,89 @@ h1 {
   z-index: 3;
 }
 
+/* Watch the work video reel */
+.reel-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+  margin: 2.6rem auto 0;
+  max-width: var(--max);
+}
+
+.reel-card {
+  flex: 0 1 calc(33.333% - 0.7rem);
+  min-width: 260px;
+  margin: 0;
+  position: relative;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background: var(--charcoal);
+  border: 1px solid var(--cream-border);
+}
+
+.reel-card > img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.reel-card figcaption {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 0.9rem 1rem;
+  z-index: 4;
+  pointer-events: none;
+  display: grid;
+  gap: 0.15rem;
+  background: linear-gradient(0deg, rgba(5, 5, 5, 0.82), transparent);
+}
+
+.reel-card figcaption span {
+  color: var(--acid);
+  font-family: var(--condensed);
+  font-size: 0.72rem;
+  font-weight: 950;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.reel-card figcaption strong {
+  color: var(--white);
+  font-family: var(--serif);
+  font-size: 1.15rem;
+  line-height: 1.05;
+}
+
+.reel-card .video-play-icon {
+  width: 54px;
+  height: 54px;
+}
+
+.reel-card .video-play-icon::after {
+  border-width: 9px 0 9px 15px;
+  margin-left: 4px;
+}
+
+.reel-card.is-playing figcaption {
+  display: none;
+}
+
+@media (max-width: 900px) {
+  .reel-card {
+    flex: 0 1 calc(50% - 0.5rem);
+  }
+}
+
+@media (max-width: 560px) {
+  .reel-card {
+    flex: 1 1 100%;
+  }
+}
+
 .case-gallery img {
   display: block;
   height: 100%;
