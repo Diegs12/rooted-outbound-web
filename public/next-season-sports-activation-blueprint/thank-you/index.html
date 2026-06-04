@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Blueprint Booked | Rooted Creative</title>
+    <meta
+      name="description"
+      content="Your Sports Activation Blueprint session has been booked with Rooted Creative."
+    />
+    <link rel="stylesheet" href="../styles.css?v=kendo-case-studies" />
+    <!-- TODO: Add the same Google Tag Manager or GA4 snippet used on the landing page. Track this page view as the booked-session conversion. -->
+  </head>
+  <body class="thank-you-page">
+    <main class="thank-you-shell">
+      <p class="eyebrow">Blueprint booked</p>
+      <h1>Your session is on the calendar.</h1>
+      <p>
+        We’ll review the context you shared before the call so the 60-minute Blueprint can focus on useful activation directions, budget reality, and production next steps.
+      </p>
+      <div class="thank-you-panel">
+        <h2>Before the session</h2>
+        <ul class="booking-list">
+          <li>Bring any existing brief, sponsorship details, event deck, or brand direction.</li>
+          <li>Think through the audience, timing, internal stakeholders, and production budget range.</li>
+          <li>If there are past activations you want to beat, bring those too.</li>
+        </ul>
+      </div>
+    </main>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push({
+        event: "calendly_booking_completed",
+        conversion_name: "sports_activation_blueprint_booked"
+      });
+
+      if (typeof window.gtag === "function") {
+        window.gtag("event", "calendly_booking_completed", {
+          event_category: "conversion",
+          event_label: "sports_activation_blueprint_booked"
+        });
+      }
+    </script>
+  </body>
+</html>
