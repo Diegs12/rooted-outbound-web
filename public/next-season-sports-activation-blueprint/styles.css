@@ -309,6 +309,12 @@ h1 {
   max-width: 860px;
 }
 
+/* Footprints header sits below the 3D gallery, kept a touch smaller */
+#visual-proof-heading {
+  font-size: clamp(2rem, 3.7vw, 3.5rem);
+  max-width: 760px;
+}
+
 .visual-proof-heading p:not(.section-kicker) {
   align-self: end;
   color: var(--muted);
