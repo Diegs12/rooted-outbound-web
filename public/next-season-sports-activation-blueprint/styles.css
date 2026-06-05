@@ -725,13 +725,13 @@ h1 {
   background: var(--charcoal);
   border: 1px solid rgba(5, 5, 5, 0.14);
   margin: 0;
-  min-height: 270px;
+  min-height: 210px;
   overflow: hidden;
 }
 
 .case-gallery .case-large {
   grid-column: 1 / -1;
-  min-height: 440px;
+  min-height: 320px;
 }
 
 /* Editorial split: one tall portrait beside two stacked frames */
@@ -742,7 +742,7 @@ h1 {
 
 .case-gallery-split .case-tall {
   grid-row: span 2;
-  min-height: 380px;
+  min-height: 300px;
 }
 
 /* Click-to-play video on case galleries */
