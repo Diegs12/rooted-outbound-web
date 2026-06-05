@@ -688,7 +688,7 @@
       <span>Sports Activation Blueprint</span>
     </footer>
 
-    <div id="video-lightbox" class="video-lightbox" hidden aria-hidden="true">
+    <div id="video-lightbox" class="video-lightbox" hidden aria-hidden="true" role="dialog" aria-modal="true" aria-label="Video player">
       <button class="vl-close" type="button" aria-label="Close video">&times;</button>
       <div class="vl-frame"></div>
     </div>
@@ -716,6 +716,8 @@
 
       const lightbox = document.getElementById("video-lightbox");
       const vlFrame = lightbox.querySelector(".vl-frame");
+      const vlClose = lightbox.querySelector(".vl-close");
+      let lastVideoTrigger = null;
       function openLightbox(src) {
         const sep = src.includes("?") ? "&" : "?";
         const iframe = document.createElement("iframe");
@@ -728,23 +730,42 @@
         lightbox.hidden = false;
         lightbox.setAttribute("aria-hidden", "false");
         document.body.style.overflow = "hidden";
+        vlClose.focus();
       }
       function closeLightbox() {
         lightbox.hidden = true;
         lightbox.setAttribute("aria-hidden", "true");
         vlFrame.innerHTML = "";
         document.body.style.overflow = "";
+        if (lastVideoTrigger) lastVideoTrigger.focus();
       }
       document.querySelectorAll(".case-video").forEach((fig) => {
-        fig.addEventListener("click", () => {
+        fig.setAttribute("role", "button");
+        fig.setAttribute("tabindex", "0");
+        fig.setAttribute("aria-label", "Open activation video");
+        const openFromFigure = () => {
           const src = fig.dataset.vimeo;
-          if (src) openLightbox(src);
+          if (src) {
+            lastVideoTrigger = fig;
+            openLightbox(src);
+          }
+        };
+        fig.addEventListener("click", openFromFigure);
+        fig.addEventListener("keydown", (e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            openFromFigure();
+          }
         });
       });
       lightbox.addEventListener("click", (e) => {
         if (e.target === lightbox || e.target.classList.contains("vl-close")) closeLightbox();
       });
       document.addEventListener("keydown", (e) => {
+        if (e.key === "Tab" && !lightbox.hidden) {
+          e.preventDefault();
+          vlClose.focus();
+        }
         if (e.key === "Escape" && !lightbox.hidden) closeLightbox();
       });
     </script>

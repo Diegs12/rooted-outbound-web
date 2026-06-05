@@ -572,6 +572,11 @@ h1 {
   position: relative;
 }
 
+.case-video:focus-visible {
+  outline: 3px solid var(--acid);
+  outline-offset: 4px;
+}
+
 /* Fullscreen video lightbox: clicked videos open big */
 .video-lightbox {
   position: fixed;
@@ -767,7 +772,7 @@ h1 {
     flex: 1 1 100%;
   }
   .logo-wall {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-columns: repeat(8, minmax(0, 1fr));
   }
 }
 
@@ -1559,7 +1564,7 @@ a:focus-visible {
   }
 
   .logo-wall {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: repeat(4, minmax(0, 1fr));
   }
 
   .deliverables,
