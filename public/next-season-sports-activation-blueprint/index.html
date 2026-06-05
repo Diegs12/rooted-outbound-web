@@ -25,7 +25,7 @@
       content="Get a free 60-minute sports activation working session with custom concepts, visual direction, budget ranges, and production guidance."
     />
     <link rel="canonical" href="/next-season-sports-activation-blueprint/" />
-    <link rel="stylesheet" href="./styles.css?v=orbit-spread-center" />
+    <link rel="stylesheet" href="./styles.css?v=video-lightbox" />
     <!-- TODO: Add your Google Tag Manager or GA4 snippet here after creating the measurement property. -->
   </head>
   <body>
@@ -660,6 +660,11 @@
       <span>Rooted Creative</span>
       <span>Sports Activation Blueprint</span>
     </footer>
+
+    <div id="video-lightbox" class="video-lightbox" hidden aria-hidden="true">
+      <button class="vl-close" type="button" aria-label="Close video">&times;</button>
+      <div class="vl-frame"></div>
+    </div>
     <script>
       window.dataLayer = window.dataLayer || [];
 
@@ -682,20 +687,38 @@
         });
       });
 
+      const lightbox = document.getElementById("video-lightbox");
+      const vlFrame = lightbox.querySelector(".vl-frame");
+      function openLightbox(src) {
+        const sep = src.includes("?") ? "&" : "?";
+        const iframe = document.createElement("iframe");
+        iframe.src = src + sep + "autoplay=1";
+        iframe.title = "Rooted Creative activation video";
+        iframe.setAttribute("allow", "autoplay; fullscreen; picture-in-picture");
+        iframe.setAttribute("allowfullscreen", "");
+        vlFrame.innerHTML = "";
+        vlFrame.appendChild(iframe);
+        lightbox.hidden = false;
+        lightbox.setAttribute("aria-hidden", "false");
+        document.body.style.overflow = "hidden";
+      }
+      function closeLightbox() {
+        lightbox.hidden = true;
+        lightbox.setAttribute("aria-hidden", "true");
+        vlFrame.innerHTML = "";
+        document.body.style.overflow = "";
+      }
       document.querySelectorAll(".case-video").forEach((fig) => {
         fig.addEventListener("click", () => {
-          if (fig.classList.contains("is-playing")) return;
           const src = fig.dataset.vimeo;
-          if (!src) return;
-          const iframe = document.createElement("iframe");
-          const sep = src.includes("?") ? "&" : "?";
-          iframe.src = src + sep + "autoplay=1";
-          iframe.title = "Rooted Creative activation video";
-          iframe.setAttribute("allow", "autoplay; fullscreen; picture-in-picture");
-          iframe.setAttribute("allowfullscreen", "");
-          fig.appendChild(iframe);
-          fig.classList.add("is-playing");
+          if (src) openLightbox(src);
         });
+      });
+      lightbox.addEventListener("click", (e) => {
+        if (e.target === lightbox || e.target.classList.contains("vl-close")) closeLightbox();
+      });
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape" && !lightbox.hidden) closeLightbox();
       });
     </script>
     <script type="module">
