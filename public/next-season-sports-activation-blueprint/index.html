@@ -25,7 +25,7 @@
       content="Get a free 60-minute sports activation working session with custom concepts, visual direction, budget ranges, and production guidance."
     />
     <link rel="canonical" href="/next-season-sports-activation-blueprint/" />
-    <link rel="stylesheet" href="./styles.css?v=logo-hover" />
+    <link rel="stylesheet" href="./styles.css?v=orbit-depth-restore" />
     <!-- TODO: Add your Google Tag Manager or GA4 snippet here after creating the measurement property. -->
   </head>
   <body>
@@ -816,10 +816,10 @@
           const GOLDEN = Math.PI * (3 - Math.sqrt(5));
 
           IMAGES.forEach((src, i) => {
-            const ang = i * GOLDEN + (Math.random() - 0.5) * 0.4;
-            const r = 4 + Math.random() * 6.5;
-            const z = 2 - (i / N) * 34 - Math.random() * 2.5;
-            const baseH = 3.1 + Math.random() * 0.7;
+            const ang = i * GOLDEN;
+            const r = 5 + (i % 7) * 1.05;
+            const z = 3 - (i / N) * 46 - Math.random() * 2.5;
+            const baseH = 2.6 + Math.random() * 1.7;
             const tex = loader.load(src, (t) => {
               const im = t.image;
               const a = im && im.width && im.height ? im.width / im.height : 1;
@@ -828,11 +828,7 @@
             tex.colorSpace = THREE.SRGBColorSpace;
             const mat = new THREE.MeshBasicMaterial({ map: tex, transparent: true, side: THREE.DoubleSide });
             const mesh = new THREE.Mesh(geo, mat);
-            mesh.position.set(
-              Math.cos(ang) * r * 1.3 + (Math.random() - 0.5) * 2,
-              Math.sin(ang) * r * 0.85 + (Math.random() - 0.5) * 2,
-              z
-            );
+            mesh.position.set(Math.cos(ang) * r * 1.3, Math.sin(ang) * r * 0.78, z);
             mesh.scale.set(baseH * 1.4, baseH, 1);
             mesh.rotation.z = (Math.random() - 0.5) * 0.12;
             scene.add(mesh);
@@ -869,7 +865,7 @@
               c.mesh.rotation.z = c.baseRotZ + Math.sin(t * 0.18 + c.phase) * 0.03;
               c.mesh.rotation.y = tx * 0.14;
             }
-            const targetZ = 15 - scrollT * 18;
+            const targetZ = 16 - scrollT * 24;
             camera.position.z += (targetZ - camera.position.z) * 0.06;
             camX += (tx * 3 - camX) * 0.05;
             camY += (-ty * 2 - camY) * 0.05;
