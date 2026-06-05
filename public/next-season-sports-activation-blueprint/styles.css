@@ -323,6 +323,21 @@ h1 {
   text-align: center;
   margin-top: 2.4rem;
 }
+.case-group-label {
+  max-width: var(--max);
+  margin: 3.5rem auto 1.25rem;
+  padding: 0 3.6vw;
+  font-family: var(--condensed);
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--rust);
+}
+.case-cta {
+  text-align: center;
+  margin: 2.25rem auto 0.5rem;
+}
 @media (max-width: 760px) {
   .teaser-grid {
     grid-template-columns: 1fr;
