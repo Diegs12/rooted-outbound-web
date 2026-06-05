@@ -879,8 +879,8 @@
           const GOLDEN = Math.PI * (3 - Math.sqrt(5));
 
           IMAGES.forEach((src, i) => {
-            const ang = i * GOLDEN;
-            const r = 7 + 12 * Math.sqrt(i / N);
+            const ang = i * GOLDEN + (Math.random() - 0.5) * 0.6;
+            const r = (8 + 11 * Math.sqrt(i / N)) * (0.88 + Math.random() * 0.3);
             const z = 5 - Math.random() * 62;
             const baseH = 4.6 + Math.random() * 3.2;
             const tex = loader.load(src, (t) => {
@@ -891,7 +891,7 @@
             tex.colorSpace = THREE.SRGBColorSpace;
             const mat = new THREE.MeshBasicMaterial({ map: tex, transparent: true, side: THREE.DoubleSide });
             const mesh = new THREE.Mesh(geo, mat);
-            mesh.position.set(Math.cos(ang) * r * 1.55, Math.sin(ang) * r * 0.92, z);
+            mesh.position.set(Math.cos(ang) * r * 1.5, Math.sin(ang) * r * 1.2, z);
             mesh.scale.set(baseH * 1.4, baseH, 1);
             mesh.rotation.z = (Math.random() - 0.5) * 0.12;
             scene.add(mesh);
