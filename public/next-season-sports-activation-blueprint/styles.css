@@ -338,6 +338,12 @@ h1 {
   text-align: center;
   margin: 2.25rem auto 0.5rem;
 }
+.thank-you-download p {
+  margin: 0 0 1.1rem;
+}
+.thank-you-download .button {
+  display: inline-block;
+}
 @media (max-width: 760px) {
   .teaser-grid {
     grid-template-columns: 1fr;
