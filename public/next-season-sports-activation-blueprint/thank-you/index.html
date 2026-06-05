@@ -8,8 +8,28 @@
       name="description"
       content="Your Sports Activation Blueprint session has been booked with Rooted Creative."
     />
-    <link rel="stylesheet" href="../styles.css?v=kendo-case-studies" />
-    <!-- TODO: Add the same Google Tag Manager or GA4 snippet used on the landing page. Track this page view as the booked-session conversion. -->
+    <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700&display=swap" />
+    <link rel="stylesheet" href="../styles.css?v=brand-polish" />
+
+    <!-- Google Analytics 4: replace G-XXXXXXXXXX with your Measurement ID to activate (use the same ID as the landing page) -->
+    <script>
+      window.GA_MEASUREMENT_ID = "G-XXXXXXXXXX";
+      (function () {
+        var id = window.GA_MEASUREMENT_ID;
+        if (!id || id.indexOf("XXX") !== -1) return;
+        var s = document.createElement("script");
+        s.async = true;
+        s.src = "https://www.googletagmanager.com/gtag/js?id=" + id;
+        document.head.appendChild(s);
+        window.dataLayer = window.dataLayer || [];
+        window.gtag = function () { dataLayer.push(arguments); };
+        gtag("js", new Date());
+        gtag("config", id);
+      })();
+    </script>
   </head>
   <body class="thank-you-page">
     <main class="thank-you-shell">

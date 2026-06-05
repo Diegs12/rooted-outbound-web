@@ -78,13 +78,28 @@ dd {
 
 .brand {
   color: var(--white);
-  font-family: var(--condensed);
-  font-size: clamp(1.35rem, 2.1vw, 2rem);
-  font-stretch: condensed;
-  font-weight: 950;
-  letter-spacing: 0.02em;
-  line-height: 1;
+  display: inline-flex;
+  flex-direction: column;
+  line-height: 0.84;
+}
+.brand .lockup-top {
+  font-family: "Anton", var(--condensed);
+  font-size: clamp(1.45rem, 2.4vw, 2.15rem);
+  letter-spacing: 0.05em;
   text-transform: uppercase;
+}
+.brand .lockup-sub {
+  font-family: var(--condensed);
+  font-weight: 700;
+  font-size: clamp(0.52rem, 0.9vw, 0.74rem);
+  letter-spacing: 0.5em;
+  text-transform: uppercase;
+  padding-left: 0.18em;
+  margin-top: 0.22em;
+  color: var(--acid);
+}
+.site-footer .lockup-top {
+  font-size: 1.1rem;
 }
 
 .header-proof {
@@ -401,6 +416,21 @@ h1 {
 }
 .playbook-grid .play:last-child {
   grid-column: 1 / -1;
+}
+.case-results {
+  margin: 1.15rem 0 0;
+  padding-top: 0.9rem;
+  border-top: 1px solid var(--dark-border);
+  line-height: 1.5;
+}
+.case-results span {
+  display: block;
+  margin-bottom: 0.2rem;
+  color: var(--rust);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.82rem;
 }
 .thank-you-download p {
   margin: 0 0 1.1rem;

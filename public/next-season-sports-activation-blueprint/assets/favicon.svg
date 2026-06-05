@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <rect width="64" height="64" rx="10" fill="#050505"/>
+  <g stroke="#dfff00" stroke-width="3" fill="none" stroke-linecap="square">
+    <path d="M11 19 V11 H19"/>
+    <path d="M45 11 H53 V19"/>
+    <path d="M53 45 V53 H45"/>
+    <path d="M19 53 H11 V45"/>
+  </g>
+  <text x="32" y="43" font-family="Anton, 'Arial Narrow', sans-serif" font-size="32" font-weight="700" fill="#ffffff" text-anchor="middle">R</text>
+</svg>

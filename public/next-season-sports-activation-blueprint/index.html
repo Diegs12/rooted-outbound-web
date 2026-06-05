@@ -25,15 +25,49 @@
       content="Get a free 60-minute sports activation working session with custom concepts, visual direction, budget ranges, and production guidance."
     />
     <link rel="canonical" href="/next-season-sports-activation-blueprint/" />
-    <link rel="stylesheet" href="./styles.css?v=video-lightbox" />
-    <!-- TODO: Add your Google Tag Manager or GA4 snippet here after creating the measurement property. -->
+
+    <!-- Social link preview -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Sports Activation Blueprint | Rooted Creative" />
+    <meta property="og:description" content="A free 60-minute working session: 2 to 3 custom activation concepts, visual direction, budget reality, and a production path." />
+    <meta property="og:image" content="https://rooted-outbound-web.vercel.app/next-season-sports-activation-blueprint/assets/amplify/amplify-wall.jpg" />
+    <meta property="og:url" content="https://rooted-outbound-web.vercel.app/next-season-sports-activation-blueprint/" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Sports Activation Blueprint | Rooted Creative" />
+    <meta name="twitter:description" content="A free 60-minute working session: 2 to 3 custom activation concepts, visual direction, budget reality, and a production path." />
+    <meta name="twitter:image" content="https://rooted-outbound-web.vercel.app/next-season-sports-activation-blueprint/assets/amplify/amplify-wall.jpg" />
+
+    <link rel="icon" type="image/svg+xml" href="./assets/favicon.svg" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700&display=swap" />
+    <link rel="stylesheet" href="./styles.css?v=brand-polish" />
+
+    <!-- Google Analytics 4: replace G-XXXXXXXXXX with your Measurement ID to activate -->
+    <script>
+      window.GA_MEASUREMENT_ID = "G-XXXXXXXXXX";
+      (function () {
+        var id = window.GA_MEASUREMENT_ID;
+        if (!id || id.indexOf("XXX") !== -1) return;
+        var s = document.createElement("script");
+        s.async = true;
+        s.src = "https://www.googletagmanager.com/gtag/js?id=" + id;
+        document.head.appendChild(s);
+        window.dataLayer = window.dataLayer || [];
+        window.gtag = function () { dataLayer.push(arguments); };
+        gtag("js", new Date());
+        gtag("config", id);
+      })();
+    </script>
   </head>
   <body>
     <a class="skip-link" href="#main">Skip to content</a>
 
     <header class="site-header">
       <div class="brand" aria-label="Rooted Creative">
-        <span>Rooted Creative</span>
+        <span class="lockup-top">Rooted</span>
+        <span class="lockup-sub">Creative</span>
       </div>
       <p class="header-proof">60-minute working session · Free for qualified brands</p>
       <a
@@ -376,6 +410,7 @@
               <li>Pull festival-goers in with immersive football and soccer games on an elevated turf lane</li>
               <li>Keep sampling and bottle giveaways flowing across both days with zero product waste</li>
             </ul>
+            <p class="case-results"><span>The results</span>A two-day festival drawing 38,000 to 40,000 people, with every pallet of product used and zero waste.</p>
           </div>
           <div class="case-gallery case-gallery-bodyarmor">
             <figure class="case-large case-video" data-vimeo="https://player.vimeo.com/video/1198720277?h=ca8cc78acc">
@@ -413,6 +448,7 @@
               <li>Design guest flow around discovery, sampling, and photo opportunities</li>
               <li>Create a brand environment that holds up in person and on camera</li>
             </ul>
+            <p class="case-results"><span>The results</span>About 5,400 gratis kits handed out, roughly 6,000 lip chillers sampled, and 2,278 photobooth photos captured at Ulta Beauty World.</p>
           </div>
           <div class="case-gallery case-gallery-fenty">
             <figure class="case-large case-video" data-vimeo="https://player.vimeo.com/video/1184919403">
@@ -467,6 +503,7 @@
               <li>Engineer a brand environment that stands out on a crowded show floor</li>
               <li>Carry one consistent brand world across two flagship conferences</li>
             </ul>
+            <p class="case-results"><span>The results</span>A three-day show floor with 900-plus exhibitors and 27,000 attendees, plus branded content including C-suite interviews.</p>
           </div>
           <div class="case-gallery case-gallery-koddi">
             <figure class="case-large">
@@ -753,7 +790,10 @@
     </main>
 
     <footer class="site-footer">
-      <span>Rooted Creative</span>
+      <span class="brand">
+        <span class="lockup-top">Rooted</span>
+        <span class="lockup-sub">Creative</span>
+      </span>
       <span>Sports Activation Blueprint</span>
     </footer>
 
