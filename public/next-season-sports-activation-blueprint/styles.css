@@ -854,24 +854,27 @@ h1 {
 
 .orbit-overlay {
   position: absolute;
-  left: clamp(1.25rem, 5vw, 4rem);
-  bottom: clamp(1.5rem, 5vw, 3.5rem);
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
   z-index: 2;
   pointer-events: none;
-  max-width: 640px;
+  max-width: min(88vw, 720px);
 }
 
 .orbit-overlay .section-kicker {
   color: var(--acid);
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.6rem;
+  text-shadow: 0 2px 14px rgba(0, 0, 0, 0.9);
 }
 
 .orbit-overlay h2 {
   color: var(--white);
   font-family: var(--serif);
-  font-size: clamp(2.4rem, 5vw, 4.6rem);
+  font-size: clamp(2.6rem, 5.4vw, 5rem);
   line-height: 0.92;
-  text-shadow: 0 2px 30px rgba(0, 0, 0, 0.7);
+  text-shadow: 0 4px 34px rgba(0, 0, 0, 0.9), 0 2px 10px rgba(0, 0, 0, 0.85);
 }
 
 .orbit-hint {

@@ -25,7 +25,7 @@
       content="Get a free 60-minute sports activation working session with custom concepts, visual direction, budget ranges, and production guidance."
     />
     <link rel="canonical" href="/next-season-sports-activation-blueprint/" />
-    <link rel="stylesheet" href="./styles.css?v=orbit-depth-restore" />
+    <link rel="stylesheet" href="./styles.css?v=orbit-spread-center" />
     <!-- TODO: Add your Google Tag Manager or GA4 snippet here after creating the measurement property. -->
   </head>
   <body>
@@ -714,25 +714,6 @@
         if (reduce || small || !webglOK) return; // keep static fallback grid
 
         const IMAGES = [
-          "./assets/reel/celsius-fiesta.jpg",
-          "./assets/reel/adidas-drip.jpg",
-          "./assets/reel/sonic-temple.jpg",
-          "./assets/reel/adidas-littleleague.jpg",
-          "./assets/reel/tailgreeter-curebowl.jpg",
-          "./assets/reel/advent-5k.jpg",
-          "./assets/reel/mls-quest.jpg",
-          "./assets/reel/bodyarmor-kroger.jpg",
-          "./assets/reel/celsius-preakness.jpg",
-          "./assets/reel/pride-glory.jpg",
-          "./assets/amplify/amplify-celsius-energy.jpg",
-          "./assets/amplify/amplify-fenty-keychains.jpg",
-          "./assets/amplify/amplify-celsius-woman.jpg",
-          "./assets/amplify/amplify-seadoo-cmo.jpg",
-          "./assets/amplify/amplify-seadoo-ride.jpg",
-          "./assets/amplify/amplify-fenty-neon.jpg",
-          "./assets/amplify/amplify-seadoo-booth.jpg",
-          "./assets/amplify/amplify-celsius-can.jpg",
-          "./assets/amplify/amplify-seadoo-pov.jpg",
           "./assets/case-studies/celsius/fanfest-sunset.jpg",
           "./assets/case-studies/celsius/mediatour-foosball.jpg",
           "./assets/case-studies/celsius/mlscup-juggle.jpg",
@@ -817,9 +798,9 @@
 
           IMAGES.forEach((src, i) => {
             const ang = i * GOLDEN;
-            const r = 5 + (i % 7) * 1.05;
-            const z = 3 - (i / N) * 46 - Math.random() * 2.5;
-            const baseH = 2.6 + Math.random() * 1.7;
+            const r = 7 + 12 * Math.sqrt(i / N);
+            const z = 3 - Math.random() * 42;
+            const baseH = 3.4 + Math.random() * 2.4;
             const tex = loader.load(src, (t) => {
               const im = t.image;
               const a = im && im.width && im.height ? im.width / im.height : 1;
@@ -828,7 +809,7 @@
             tex.colorSpace = THREE.SRGBColorSpace;
             const mat = new THREE.MeshBasicMaterial({ map: tex, transparent: true, side: THREE.DoubleSide });
             const mesh = new THREE.Mesh(geo, mat);
-            mesh.position.set(Math.cos(ang) * r * 1.3, Math.sin(ang) * r * 0.78, z);
+            mesh.position.set(Math.cos(ang) * r * 1.55, Math.sin(ang) * r * 0.92, z);
             mesh.scale.set(baseH * 1.4, baseH, 1);
             mesh.rotation.z = (Math.random() - 0.5) * 0.12;
             scene.add(mesh);
