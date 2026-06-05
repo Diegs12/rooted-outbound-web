@@ -25,7 +25,7 @@
       content="Get a free 60-minute sports activation working session with custom concepts, visual direction, budget ranges, and production guidance."
     />
     <link rel="canonical" href="/next-season-sports-activation-blueprint/" />
-    <link rel="stylesheet" href="./styles.css?v=gallery-up-header-sm" />
+    <link rel="stylesheet" href="./styles.css?v=gallery-40-spread" />
     <!-- TODO: Add your Google Tag Manager or GA4 snippet here after creating the measurement property. -->
   </head>
   <body>
@@ -744,6 +744,16 @@
           "./assets/case-studies/kendo/ole-overview.jpg",
           "./assets/proof/advent-motion.jpg",
           "./assets/proof/koddi-shoptalk.jpg",
+          "./assets/gallery/sdsc-37.jpg",
+          "./assets/gallery/sdsc-69.jpg",
+          "./assets/gallery/sdsc-96.jpg",
+          "./assets/gallery/sdsc-118.jpg",
+          "./assets/gallery/sdsc-119.jpg",
+          "./assets/gallery/sdsc-212.jpg",
+          "./assets/gallery/sdsc-282.jpg",
+          "./assets/gallery/sdsc-330.jpg",
+          "./assets/gallery/sdsc-411.jpg",
+          "./assets/gallery/sdsc-470.jpg",
         ];
 
         let started = false;
@@ -786,10 +796,10 @@
           const GOLDEN = Math.PI * (3 - Math.sqrt(5));
 
           IMAGES.forEach((src, i) => {
-            const ang = i * GOLDEN;
-            const r = 5.4 + (i % 6) * 1.15;
-            const z = 2 - (i / N) * 32 - Math.random() * 1.6;
-            const baseH = 2.4 + Math.random() * 1.9;
+            const ang = i * GOLDEN + (Math.random() - 0.5) * 0.7;
+            const r = 6.5 + Math.random() * 8.5;
+            const z = 4 - (i / N) * 46 - Math.random() * 3.5;
+            const baseH = 2.2 + Math.random() * 2;
             const tex = loader.load(src, (t) => {
               const im = t.image;
               const a = im && im.width && im.height ? im.width / im.height : 1;
@@ -798,7 +808,11 @@
             tex.colorSpace = THREE.SRGBColorSpace;
             const mat = new THREE.MeshBasicMaterial({ map: tex, transparent: true, side: THREE.DoubleSide });
             const mesh = new THREE.Mesh(geo, mat);
-            mesh.position.set(Math.cos(ang) * r * 1.3, Math.sin(ang) * r * 0.78, z);
+            mesh.position.set(
+              Math.cos(ang) * r * 1.45 + (Math.random() - 0.5) * 3.5,
+              Math.sin(ang) * r * 0.95 + (Math.random() - 0.5) * 3.5,
+              z
+            );
             mesh.scale.set(baseH * 1.4, baseH, 1);
             mesh.rotation.z = (Math.random() - 0.5) * 0.12;
             scene.add(mesh);
