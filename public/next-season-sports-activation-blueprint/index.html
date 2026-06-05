@@ -811,6 +811,11 @@
           "./assets/gallery/bodyarmor-powerade-tent.jpg",
           "./assets/gallery/bodyarmor-crowd.jpg",
           "./assets/gallery/bodyarmor-soccer-wall.jpg",
+          "./assets/gallery/bodyarmor-bottles.jpg",
+          "./assets/gallery/bodyarmor-guests.jpg",
+          "./assets/gallery/bodyarmor-powerade-zero.jpg",
+          "./assets/gallery/ole-crowd.jpg",
+          "./assets/gallery/ole-team.jpg",
         ];
 
         let started = false;
@@ -855,7 +860,7 @@
           IMAGES.forEach((src, i) => {
             const ang = i * GOLDEN;
             const r = 7 + 12 * Math.sqrt(i / N);
-            const z = 3 - Math.random() * 42;
+            const z = 5 - Math.random() * 62;
             const baseH = 4.6 + Math.random() * 3.2;
             const tex = loader.load(src, (t) => {
               const im = t.image;

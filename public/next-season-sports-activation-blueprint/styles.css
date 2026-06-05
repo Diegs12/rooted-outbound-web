@@ -254,8 +254,8 @@ h1 {
 
 .logo-wall {
   display: grid;
-  gap: clamp(0.25rem, 0.8vw, 0.7rem) clamp(0.45rem, 1.3vw, 1.15rem);
-  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: clamp(0.15rem, 0.45vw, 0.4rem) clamp(0.3rem, 0.7vw, 0.65rem);
+  grid-template-columns: repeat(12, minmax(0, 1fr));
   margin: 0 auto;
   max-width: var(--max);
 }
@@ -264,7 +264,7 @@ h1 {
   align-items: center;
   display: flex;
   justify-content: center;
-  min-height: 76px;
+  min-height: 54px;
   padding: 0;
 }
 
@@ -272,8 +272,8 @@ h1 {
   display: block;
   filter: contrast(1.08);
   height: auto;
-  max-height: 74px;
-  max-width: min(190px, 98%);
+  max-height: 48px;
+  max-width: min(120px, 98%);
   object-fit: contain;
   opacity: 0.94;
   width: auto;
@@ -757,11 +757,17 @@ h1 {
   .reel-card {
     flex: 0 1 calc(50% - 0.5rem);
   }
+  .logo-wall {
+    grid-template-columns: repeat(8, minmax(0, 1fr));
+  }
 }
 
 @media (max-width: 560px) {
   .reel-card {
     flex: 1 1 100%;
+  }
+  .logo-wall {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
   }
 }
 
