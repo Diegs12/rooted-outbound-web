@@ -235,6 +235,31 @@ h1 {
   width: 22px;
 }
 
+.hero-bullets {
+  list-style: none;
+  margin: 1.25rem 0 0;
+  padding: 0;
+  display: grid;
+  gap: 0.55rem;
+  max-width: 540px;
+}
+.hero-bullets li {
+  position: relative;
+  padding-left: 1.4rem;
+  line-height: 1.45;
+}
+.hero-bullets li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.5em;
+  width: 0.55rem;
+  height: 0.55rem;
+  background: var(--acid);
+  border-radius: 1px;
+  transform: rotate(45deg);
+}
+
 .trusted-section {
   background:
     radial-gradient(circle at 20% 0%, rgba(255, 255, 255, 0.6), transparent 27%),
