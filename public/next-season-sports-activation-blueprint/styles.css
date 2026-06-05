@@ -260,6 +260,75 @@ h1 {
   transform: rotate(45deg);
 }
 
+.teaser-section {
+  background: var(--cream);
+  color: var(--black);
+}
+.teaser-inner {
+  max-width: var(--max);
+  margin: 0 auto;
+}
+.teaser-head {
+  text-align: center;
+  margin: 0 auto 1.8rem;
+}
+.teaser-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.1rem;
+}
+.teaser-card {
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+  color: var(--black);
+  background: #fff;
+  border-radius: 14px;
+  overflow: hidden;
+  border: 1px solid var(--dark-border);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+.teaser-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 20px 44px rgba(0, 0, 0, 0.16);
+}
+.teaser-card img {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  display: block;
+}
+.teaser-card-copy {
+  padding: 1rem 1.1rem 1.25rem;
+}
+.teaser-label {
+  display: block;
+  font-weight: 700;
+  margin-bottom: 0.4rem;
+}
+.teaser-card-copy p {
+  margin: 0;
+  line-height: 1.45;
+  font-size: 0.95rem;
+  color: #333;
+}
+.teaser-jump {
+  display: inline-block;
+  margin-top: 1.6rem;
+  font-weight: 600;
+  text-decoration: none;
+  color: var(--rust);
+}
+.offer-cta {
+  text-align: center;
+  margin-top: 2.4rem;
+}
+@media (max-width: 760px) {
+  .teaser-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
 .trusted-section {
   background:
     radial-gradient(circle at 20% 0%, rgba(255, 255, 255, 0.6), transparent 27%),
