@@ -760,6 +760,7 @@
     <div id="video-lightbox" class="video-lightbox" hidden aria-hidden="true" role="dialog" aria-modal="true" aria-label="Video player">
       <button class="vl-close" type="button" aria-label="Close video">&times;</button>
       <div class="vl-frame"></div>
+      <div class="vl-info" hidden></div>
     </div>
     <script>
       window.dataLayer = window.dataLayer || [];
@@ -786,7 +787,25 @@
       const lightbox = document.getElementById("video-lightbox");
       const vlFrame = lightbox.querySelector(".vl-frame");
       const vlClose = lightbox.querySelector(".vl-close");
+      const vlInfo = lightbox.querySelector(".vl-info");
       let lastVideoTrigger = null;
+      const VIDEO_INFO = {
+        "1107111804": { title: "Celsius · MLS All-Star Fan Fest", blurb: "An open-air Celsius footprint at the MLS All-Star Fan Fest in Austin, designed and built to read from across the park and hold its crowd from the afternoon straight into a packed sunset." },
+        "1127380029": { title: "Celsius · MLS Media Marketing Tour", blurb: "A fully branded, interactive set for the Celsius x MLS Media Marketing Tour where players and media competed and captured content, every wall reinforcing Celsius as the Official Energy Drink Partner of MLS." },
+        "1198720277": { title: "BodyArmor + Powerade · Kroger Wellness Festival", blurb: "A dual-brand footprint for BodyArmor and Powerade across two days at the Kroger Wellness Festival in Cincinnati, with branded tents, dimensional 3D signage, and immersive football and soccer games on an elevated turf lane." },
+        "1184919403": { title: "Kendo Brands · Fenty Beauty", blurb: "A tactile Fenty Beauty event environment with strong product visibility, branded set pieces, and guided guest moments, premium without losing the energy of the room." },
+        "1185931293": { title: "Kendo Brands · Ole Henriksen", blurb: "A bold, high-saturation Ole Henriksen footprint with product-driven zones and interactive moments built to pull people in from the aisle and keep the line moving." },
+        "1146698942": { title: "Celsius · MLS Fiesta", blurb: "Content Rooted captured and produced from the Celsius MLS Fiesta activation." },
+        "603996510": { title: "Adidas · Baseball Drip Campaign", blurb: "A baseball-season content campaign Rooted produced for Adidas." },
+        "834907269": { title: "Celsius · Sonic Temple", blurb: "Celsius activation content Rooted captured at the Sonic Temple festival." },
+        "892003014": { title: "Adidas · ECP Little League", blurb: "Content Rooted produced for Adidas around an ECP Little League moment." },
+        "829242025": { title: "Celsius · The Preakness", blurb: "Celsius activation content Rooted captured at The Preakness." },
+        "777392385": { title: "Columbus Crew · Pride and Glory Buildout", blurb: "A buildout Rooted designed and captured for the Columbus Crew." },
+        "870373859": { title: "BodyArmor · Kroger Wellness", blurb: "BodyArmor content from the Kroger Wellness Festival activation in downtown Cincinnati." },
+        "661795737": { title: "Tailgreeter · Cure Bowl", blurb: "Content Rooted produced for Tailgreeter at the Cure Bowl." },
+        "1094401603": { title: "AdventHealth · Corporate 5K", blurb: "Recap content from the AdventHealth Corporate 5K footprint Rooted built and ran." },
+        "1039025344": { title: "Rooted · MLS Quest", blurb: "Activation content from Rooted's MLS Quest work." }
+      };
       function openLightbox(src) {
         const sep = src.includes("?") ? "&" : "?";
         const iframe = document.createElement("iframe");
@@ -796,6 +815,20 @@
         iframe.setAttribute("allowfullscreen", "");
         vlFrame.innerHTML = "";
         vlFrame.appendChild(iframe);
+        const idMatch = src.match(/video\/(\d+)/);
+        const info = idMatch ? VIDEO_INFO[idMatch[1]] : null;
+        vlInfo.innerHTML = "";
+        if (info) {
+          const h = document.createElement("h3");
+          h.textContent = info.title;
+          const p = document.createElement("p");
+          p.textContent = info.blurb;
+          vlInfo.appendChild(h);
+          vlInfo.appendChild(p);
+          vlInfo.hidden = false;
+        } else {
+          vlInfo.hidden = true;
+        }
         lightbox.hidden = false;
         lightbox.setAttribute("aria-hidden", "false");
         document.body.style.overflow = "hidden";
@@ -805,6 +838,8 @@
         lightbox.hidden = true;
         lightbox.setAttribute("aria-hidden", "true");
         vlFrame.innerHTML = "";
+        vlInfo.innerHTML = "";
+        vlInfo.hidden = true;
         document.body.style.overflow = "";
         if (lastVideoTrigger) lastVideoTrigger.focus();
       }
