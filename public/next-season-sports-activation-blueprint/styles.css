@@ -82,24 +82,13 @@ dd {
   flex-direction: column;
   line-height: 0.84;
 }
-.brand .lockup-top {
-  font-family: "Anton", var(--condensed);
-  font-size: clamp(1.45rem, 2.4vw, 2.15rem);
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
+.brand-logo {
+  display: block;
+  width: auto;
+  height: clamp(2rem, 3.4vw, 3rem);
 }
-.brand .lockup-sub {
-  font-family: var(--condensed);
-  font-weight: 700;
-  font-size: clamp(0.52rem, 0.9vw, 0.74rem);
-  letter-spacing: 0.5em;
-  text-transform: uppercase;
-  padding-left: 0.18em;
-  margin-top: 0.22em;
-  color: var(--acid);
-}
-.site-footer .lockup-top {
-  font-size: 1.1rem;
+.site-footer .brand-logo {
+  height: 1.6rem;
 }
 
 .header-proof {
