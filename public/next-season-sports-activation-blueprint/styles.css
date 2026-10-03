@@ -84,7 +84,12 @@ dd {
 }
 .brand-logo {
   display: block;
+  flex: none;
+  align-self: flex-start;
   width: auto;
+  max-width: none;
+  aspect-ratio: 1317 / 390;
+  object-fit: contain;
   height: clamp(2rem, 3.4vw, 3rem);
 }
 .site-footer .brand-logo {
